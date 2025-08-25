@@ -1,0 +1,26 @@
+{
+  "profile": {
+    "role": "gilangf3000 — Backend Developer",
+    "about": "Saya seorang developer yang fokus pada performa backend, API, dan arsitektur sistem yang efisien.",
+    "image": "http://zhyapping-cdn.hf.space/file/be41910baa7e15ee2cab262f383a6ee4.jpg"
+  },
+  "socialLinks": [
+    { "icon": "fab fa-github", "url": "https://github.com/gilangf3000", "color": "hover:text-green-400" },
+    { "icon": "fab fa-youtube", "url": "https://m.youtube.com/@gilangf3000", "color": "hover:text-green-400" },
+    { "icon": "fab fa-tiktok", "url": "https://www.tiktok.com/@gilangf3000", "color": "hover:text-green-400" }
+  ],
+  "cryptoAddresses": [
+    { "key": "btc", "address": "bc1qrqg3nfuddt6wmqf7z9quarwqs9qkdn76uktga9", "icon": "fa-brands fa-bitcoin", "color": "hover:text-yellow-400" },
+    { "key": "eth", "address": "0xf8C8E31C8aEa4dDb4C2FEBabACbf1c07Bb786bE9", "icon": "fa-brands fa-ethereum", "color": "hover:text-blue-400" },
+    { "key": "usdt", "address": "0xf8C8E31C8aEa4dDb4C2FEBabACbf1c07Bb786bE9", "icon": "fa-solid fa-dollar-sign", "color": "hover:text-green-400" }
+  ],
+  "projects": [
+    {
+      "key": "scraper",
+      "title": "scraper",
+      "desc": "ambil data otomatis dari web, termasuk ai tools, downloader, dll. bisa untuk analisis dan monitoring.",
+      "image": "http://zhyapping-cdn.hf.space/file/67a9398b089a4d65cd8325c0b9dd1291.jpg",
+      "link": "https://github.com/gilangf3000/scraper"
+    }
+  ]
+}
