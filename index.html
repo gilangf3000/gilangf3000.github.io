@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <!-- Prevent zoom + lock width -->
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <title>Portofolio CLI - gilangf3000</title>
+  <meta name="description" content="Portofolio tema CLI sederhana hitam putih" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body class="bg-black text-white font-mono min-h-screen flex flex-col text-sm">
+
+  <!-- Wrapper agar di desktop tampil seperti layar hp -->
+  <div class="w-full max-w-[430px] mx-auto flex-1 flex flex-col">
+
+    <main class="flex-1 w-full p-4">
+      <header>
+        <h1 class="text-lg font-bold">$ <span class="typing">whoami</span></h1>
+        <p id="role" class="text-gray-300"></p>
+      </header>
+
+      <!-- Profile -->
+      <div class="mt-10">
+        <h2 class="text-base font-semibold">$ cat profile.jpg</h2>
+        <img id="profileImage" class="mt-3 border border-white rounded w-40 h-40 object-cover" />
+      </div>
+
+      <!-- About -->
+      <section id="about" class="mt-10">
+        <h2 class="text-base font-semibold">$ cat about.txt</h2>
+        <p id="aboutText" class="mt-2 text-gray-300 leading-relaxed"></p>
+      </section>
+
+      <!-- Projects -->
+      <section id="work" class="mt-10">
+        <h2 class="text-base font-semibold">$ ls projects/</h2>
+        <ul id="projectList" class="mt-2 space-y-4 text-gray-200"></ul>
+      </section>
+
+      <!-- Social -->
+      <section id="social" class="mt-10">
+        <h2 class="text-base font-semibold">$ cat social.txt</h2>
+        <div id="socialLinks" class="mt-4 flex items-center space-x-6 text-2xl text-gray-300"></div>
+
+        <!-- Donate -->
+        <div class="mt-10">
+          <h2 class="text-base font-semibold">$ cat donate.txt</h2>
+          <div id="cryptoButtons" class="mt-4 flex items-center space-x-6 text-3xl text-gray-300"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Modal Donate -->
+  <div id="donateModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center hidden z-50">
+    <div class="bg-gray-900 border border-gray-700 rounded-lg p-6 max-w-sm w-full text-center">
+      <h3 class="text-lg font-semibold mb-4">Donate with <span id="modalTitle"></span></h3>
+      <p id="modalAddress" class="text-gray-300 break-all mb-4"></p>
+      <div id="qrcode" class="flex justify-center mb-4"></div>
+      <button id="copyBtn" class="bg-gray-800 hover:bg-green-600 px-3 py-1 rounded text-sm">[copy]</button>
+      <button onclick="closeModal()" class="ml-2 text-gray-400 hover:text-red-400 text-sm">[close]</button>
+    </div>
+  </div>
+
+  <!-- Modal Project -->
+  <div id="projectModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center hidden z-50">
+    <div class="bg-gray-900 border border-gray-700 rounded-lg p-6 max-w-sm w-full text-left">
+      <h3 id="projectTitle" class="text-lg font-semibold mb-4">$ cat project.txt</h3>
+      <img id="projectImage" class="w-full h-40 object-cover border border-gray-600 rounded mb-4" />
+      <p id="projectDesc" class="text-gray-300 mb-4"></p>
+      <a id="projectLink" target="_blank" class="inline-block bg-gray-800 hover:bg-green-600 px-3 py-1 rounded text-sm">[go to project]</a>
+      <button onclick="closeProject()" class="ml-2 text-gray-400 hover:text-red-400 text-sm">[close]</button>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script>
+    fetch('data.json')
+      .then(res => res.json())
+      .then(data => {
+        // Profile
+        document.getElementById("role").innerText = data.profile.role;
+        document.getElementById("aboutText").innerText = data.profile.about;
+        document.getElementById("profileImage").src = data.profile.image;
+
+        // Social
+        const socialContainer = document.getElementById("socialLinks");
+        data.socialLinks.forEach(s => {
+          const a = document.createElement("a");
+          a.href = s.url;
+          a.target = "_blank";
+          a.className = s.color;
+          a.innerHTML = `<i class="${s.icon}"></i>`;
+          socialContainer.appendChild(a);
+        });
+
+        // Crypto buttons
+        const cryptoContainer = document.getElementById("cryptoButtons");
+        data.cryptoAddresses.forEach(c => {
+          const btn = document.createElement("button");
+          btn.className = c.color;
+          btn.innerHTML = `<i class="${c.icon}"></i>`;
+          btn.onclick = () => openModal(c.key, c.address);
+          cryptoContainer.appendChild(btn);
+        });
+
+        // Projects
+        const projectList = document.getElementById("projectList");
+        data.projects.forEach(p => {
+          const li = document.createElement("li");
+          li.innerHTML = `
+            <button onclick="openProject('${p.key}')" class="w-full text-left hover:text-green-400">
+              <span class="underline">${p.title}</span> — ${p.desc}
+            </button>
+          `;
+          projectList.appendChild(li);
+        });
+      });
+
+    // Donate modal
+    function openModal(type, address) {
+      document.getElementById("donateModal").classList.remove("hidden");
+      document.getElementById("modalTitle").innerText = type.toUpperCase();
+      document.getElementById("modalAddress").innerText = address;
+      document.getElementById("qrcode").innerHTML = "";
+      new QRCode(document.getElementById("qrcode"), {
+        text: address,
+        width: 150,
+        height: 150,
+        colorDark: "#ffffff",
+        colorLight: "#1f2937",
+        correctLevel: QRCode.CorrectLevel.H
+      });
+      document.getElementById("copyBtn").onclick = () => {
+        navigator.clipboard.writeText(address);
+        alert(type.toUpperCase() + " address copied!");
+      };
+    }
+
+    function closeModal() {
+      document.getElementById("donateModal").classList.add("hidden");
+    }
+
+    // Project modal
+    function openProject(key) {
+      fetch('data.json')
+        .then(res => res.json())
+        .then(data => {
+          const p = data.projects.find(pr => pr.key === key);
+          document.getElementById("projectModal").classList.remove("hidden");
+          document.getElementById("projectTitle").innerText = `$ cat ${p.title}.txt`;
+          document.getElementById("projectDesc").innerText = p.desc;
+          document.getElementById("projectImage").src = p.image;
+          document.getElementById("projectLink").href = p.link;
+        });
+    }
+
+    function closeProject() {
+      document.getElementById("projectModal").classList.add("hidden");
+    }
+  </script>
+</body>
+</html>
