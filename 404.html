@@ -2,24 +2,46 @@
 <html lang="id">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,
+    maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
   <title>404 Not Found - gilangf3000</title>
   <meta name="description" content="Halaman tidak ditemukan - Portofolio CLI" />
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+    .cursor {
+      animation: blink 1s step-start infinite;
+    }
+  </style>
 </head>
-<body class="bg-black text-white font-mono min-h-screen flex flex-col items-center justify-center text-center p-4">
+<body class="bg-black text-green-400 font-mono min-h-screen flex flex-col items-center justify-center text-center p-6">
 
-  <div class="max-w-md">
-    <h1 class="text-2xl font-bold">$ <span class="text-red-500">error</span></h1>
-    <p class="mt-4 text-gray-300">404 — File or directory not found</p>
-    <p class="mt-2 text-gray-400">Halaman yang kamu cari tidak ada di server.</p>
+  <div class="max-w-lg">
+    <!-- Animasi judul -->
+    <h1 class="text-4xl md:text-6xl font-bold tracking-widest drop-shadow-lg">
+      <span class="text-red-500">404</span> Not Found<span class="cursor">_</span>
+    </h1>
 
-    <div class="mt-6">
-      <a href="index.html" class="inline-block bg-gray-800 hover:bg-green-600 px-4 py-2 rounded text-sm">
-        [ back to home ]
+    <!-- Pesan error -->
+    <p class="mt-6 text-gray-400 text-lg">
+      File atau direktori yang kamu cari tidak ditemukan di server.
+    </p>
+    <p class="mt-2 text-gray-500 text-sm italic">
+      mungkin salah ketik? atau sudah dipindahkan.
+    </p>
+
+    <!-- Tombol balik -->
+    <div class="mt-8">
+      <a href="index.html" 
+         class="inline-block bg-green-600 hover:bg-green-500 px-6 py-3 rounded-2xl text-black font-bold shadow-lg transition transform hover:scale-105">
+        [ kembali ke home ]
       </a>
     </div>
   </div>
 
+  <!-- Efek background grid -->
+  <div class="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_center,_#0f0_0%,_transparent_70%)] opacity-10"></div>
 </body>
 </html>
