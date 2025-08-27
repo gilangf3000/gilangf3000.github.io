@@ -8,7 +8,8 @@
     { "icon": "fab fa-github", "url": "https://github.com/gilangf3000", "color": "hover:text-green-400" },
     { "icon": "fab fa-youtube", "url": "https://m.youtube.com/@gilangf3000", "color": "hover:text-green-400" },
     { "icon": "fab fa-tiktok", "url": "https://www.tiktok.com/@gilangf3000", "color": "hover:text-green-400" }
-  ],
+    { "icon": "fab fa-instagram", "url": "https://www.instagram.com/@gilangf3000", "color": "hover:text-green-400" }
+      ],
   "cryptoAddresses": [
     { "key": "btc", "address": "bc1qrqg3nfuddt6wmqf7z9quarwqs9qkdn76uktga9", "icon": "fa-brands fa-bitcoin", "color": "hover:text-yellow-400" },
     { "key": "eth", "address": "0xf8C8E31C8aEa4dDb4C2FEBabACbf1c07Bb786bE9", "icon": "fa-brands fa-ethereum", "color": "hover:text-blue-400" },
