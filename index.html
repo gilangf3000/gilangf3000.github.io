@@ -164,7 +164,7 @@
 
     // Project modal
     function openProject(key) {
-      fetch('data.json')
+      fetch('https://raw.githubusercontent.com/gilangf3000/gilangf3000.github.io/refs/heads/main/data.json')
         .then(res => res.json())
         .then(data => {
           const p = data.projects.find(pr => pr.key === key);
