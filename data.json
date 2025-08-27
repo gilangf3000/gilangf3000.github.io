@@ -2,7 +2,7 @@
   "profile": {
     "role": "gilangf3000 — Backend Developer",
     "about": "Saya seorang developer yang fokus pada performa backend, API, dan arsitektur sistem yang efisien.",
-    "image": "http://zhyapping-cdn.hf.space/file/be41910baa7e15ee2cab262f383a6ee4.jpg"
+    "image": "https://files.catbox.moe/xeewqn.jpg"
   },
   "socialLinks": [
     { "icon": "fab fa-github", "url": "https://github.com/gilangf3000", "color": "hover:text-green-400" },
@@ -20,7 +20,7 @@
       "key": "scraper",
       "title": "scraper",
       "desc": "ambil data otomatis dari web, termasuk ai tools, downloader, dll. bisa untuk analisis dan monitoring.",
-      "image": "http://zhyapping-cdn.hf.space/file/67a9398b089a4d65cd8325c0b9dd1291.jpg",
+      "image": "https://files.catbox.moe/cz8tqc.jpg",
       "link": "https://github.com/gilangf3000/scraper"
     }
   ]
