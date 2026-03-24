@@ -14,7 +14,9 @@ postingan, referensi, dan hal random lainnya.
 
 ---
 
-## • &ensp; • &ensp; •
+<div align="center">
+• &ensp; • &ensp; •
+</div>
 
 ---
 
@@ -23,18 +25,6 @@ postingan, referensi, dan hal random lainnya.
 {% for page in site.misc %}
 - [{{ page.title }}]({{ page.url }})
 {% endfor %}
-
----
-
-## link link menarik
-
-### [original index →](index1.html)
-
-### neat stuff (masi berantakan tp oke lah):
-
-- [The Ultimate Game Hacking Resource](https://github.com/dsasmblr/game-hacking)
-- [The Ultimate Online Game Hacking Resource](https://github.com/dsasmblr/hacking-online-games)
-- [vgce - Video Game Content Extraction](https://github.com/ohio813/vgce/tree/master/docs)
 
 ---
 
