@@ -1,7 +1,7 @@
 theme: minima
 title: "gilang's blog"
 description: "blog pribadi yg simpel"
-url: "https://gf3000.github.io"
+url: "https://gilangf3000.github.io"
 markdown: kramdown
 
 plugins:
