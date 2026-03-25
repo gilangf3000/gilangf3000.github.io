@@ -1,21 +1,18 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   color: #333;
-  background: #fff;
+  background: #fff; /* Always white */
 }
 
+/* Hard-disable dark mode by removing/overriding media queries */
 @media (prefers-color-scheme: dark) {
   body {
-    background: #111;
-    color: #eee;
+    background: #fff !important;
+    color: #333 !important;
   }
-  header.site-header { border-bottom-color: #333 !important; }
-  .post-item { border-bottom-color: #222 !important; }
-  a { color: #58a6ff !important; }
-  .post-meta { color: #888 !important; }
 }
 
 .container {
@@ -26,16 +23,16 @@ body {
 
 header.site-header {
   padding: 30px 0 10px 0;
-  border-bottom: 1px solid #eee;
-  margin-bottom: 30px;
+  border-bottom: 1px solid #f1f1f1;
+  margin-bottom: 40px;
 }
 
 .site-title {
-  font-size: 32px;
+  font-size: 34px;
   text-decoration: none;
-  color: #444;
-  font-weight: 200; /* Extra light like in the screenshot */
-  letter-spacing: -0.5px;
+  color: #333;
+  font-weight: 200;
+  letter-spacing: -1px;
 }
 
 main {
@@ -43,7 +40,7 @@ main {
 }
 
 a {
-  color: #1e6bb8; /* The blue from the screenshot */
+  color: #1e6bb8;
   text-decoration: none;
 }
 
@@ -51,23 +48,25 @@ a:hover {
   text-decoration: underline;
 }
 
-/* Post list styling - matching screenshot */
+/* Post list styling */
+.post-list {
+  padding: 0;
+}
+
 .post-item {
   margin-bottom: 25px;
-  border-bottom: 1px solid #f9f9f9;
-  padding-bottom: 15px;
 }
 
 .post-meta {
   color: #999;
-  font-size: 13px;
+  font-size: 14px;
   display: block;
-  margin-bottom: 2px;
+  margin-bottom: 0px;
 }
 
 .post-title {
   margin: 0;
-  font-size: 20px;
+  font-size: 24px;
   font-weight: 400;
 }
 
@@ -75,50 +74,62 @@ a:hover {
   color: #1e6bb8;
 }
 
+.post-excerpt {
+  font-size: 15px;
+  color: #555;
+  margin-top: 5px;
+}
+
 /* Post content styling */
+.post-header {
+  margin-bottom: 30px;
+}
+
 .post-content {
-  font-family: Georgia, serif; /* Easier on eyes for long reading */
-  font-size: 1.1rem;
-  line-height: 1.7;
+  font-size: 1.15rem;
+  line-height: 1.6;
+}
+
+/* Fix "kebesaran" and "2 box" issue */
+div.highlight {
+  margin: 15px 0;
+  padding: 0;
+}
+
+pre {
+  background: #f6f8fa;
+  padding: 12px;
+  overflow: auto;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  margin: 0; /* Align with highlight div */
+}
+
+code {
+  font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+  font-size: 0.9em;
+  background: transparent !important; /* No extra boxes */
+  padding: 0 !important;
 }
 
 img {
   max-width: 100%;
   height: auto;
   display: block;
-  margin: 30px 0;
-}
-
-pre {
-  background: #f6f8fa;
-  padding: 16px;
-  overflow: auto;
-  border-radius: 6px;
-  border: 1px solid #eaecef;
-}
-
-@media (prefers-color-scheme: dark) {
-  pre {
-    background: #161b22;
-    border-color: #30363d;
-  }
-  .site-title { color: #ccc; }
-}
-
-code {
-  font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
-  font-size: 85%;
+  margin: 20px 0;
 }
 
 footer {
-  margin-top: 60px;
-  padding: 30px 0;
-  border-top: 1px solid #eee;
+  margin-top: 80px;
+  padding: 40px 0;
+  border-top: 1px solid #f1f1f1;
   font-size: 13px;
   color: #999;
+  text-align: left; /* Align with content index */
 }
 
-@media (max-width: 600px) {
-  .site-title { font-size: 24px; }
-  .post-title { font-size: 18px; }
+.back-link {
+  display: inline-block;
+  margin-bottom: 20px;
+  font-size: 16px;
 }
