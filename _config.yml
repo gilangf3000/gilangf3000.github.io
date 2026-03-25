@@ -1,0 +1,8 @@
+theme: minima
+title: "gilang's blog"
+description: "blog pribadi yg simpel"
+
+markdown: kramdown
+
+plugins:
+  - jekyll-feed
