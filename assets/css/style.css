@@ -9,8 +9,8 @@ body {
   flex-direction: column;
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
+  font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.6;
   color: #333;
   background: #fff;
 }
@@ -39,15 +39,20 @@ header.site-header {
 }
 
 .site-title {
+  font-family: 'Montserrat', sans-serif;
   font-size: 30px;
   text-decoration: none;
   color: #333;
-  font-weight: 200;
+  font-weight: 700; /* Bold as requested */
   letter-spacing: -1px;
 }
 
 main {
   flex: 1;
+}
+
+h1, h2, h3, h4, .post-title {
+  font-family: 'Montserrat', sans-serif;
 }
 
 a {
@@ -77,7 +82,7 @@ a:hover {
 .post-title {
   margin: 0;
   font-size: 24px;
-  font-weight: 400;
+  font-weight: 700;
 }
 
 .post-item .post-title a {
@@ -96,7 +101,7 @@ a:hover {
 
 .post-content {
   font-size: 1.15rem;
-  line-height: 1.6;
+  line-height: 1.7;
 }
 
 div.highlight {
