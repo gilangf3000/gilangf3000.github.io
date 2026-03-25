@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "tutorial: cara setup cloudflare tunnel di vps (akses tanpa ip publik)"
-date: 2026-03-26
+date: 2026-03-25
 emoji: ☁️
 keywords: [cloudflare, tunnel, vps, security, tutorial, linux]
 image: /assets/img/tunnel.png

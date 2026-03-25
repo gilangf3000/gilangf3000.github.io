@@ -10,6 +10,7 @@
   <meta name="monetag" content="a16fbc8ac757d5f77aae10e51455757a">
   <script src="https://quge5.com/88/tag.min.js" data-zone="223231" async data-cfasync="false"></script>
   {% seo %}
+  {% feed_meta %}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
@@ -23,9 +24,16 @@
 
 <body>
 
-  <header class="site-header">
-    <div class="container">
+  <header class="site-header" id="header">
+    <div class="container header-content">
       <a class="site-title" href="{{ '/' | relative_url }}">{{ site.title }}</a>
+      <div class="search-container" id="search-container">
+        <button id="search-toggle" aria-label="Toggle search"><i class="fa-solid fa-magnifying-glass"></i></button>
+        <div class="search-input-wrapper">
+          <input type="text" id="post-search" placeholder="cari postingan..." aria-label="Search posts">
+          <button id="search-close" aria-label="Close search"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+      </div>
     </div>
   </header>
 

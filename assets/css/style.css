@@ -25,26 +25,98 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   margin: 0 auto;
 }
 
-header.site-header {
-  padding: 15px 0 5px 0;
-  border-bottom: 1px solid #f1f1f1;
-  margin-bottom: 20px;
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
 }
 
-@media (max-width: 600px) {
-  header.site-header {
-    padding: 10px 0 5px 0;
-    margin-bottom: 15px;
-  }
+header.site-header {
+  padding: 15px 0 10px 0;
+  border-bottom: 1px solid #f1f1f1;
+  margin-bottom: 20px;
+  background: #fff;
+  transition: all 0.3s ease;
 }
 
 .site-title {
   font-family: 'Montserrat', sans-serif;
-  font-size: 30px;
+  font-size: 28px;
   text-decoration: none;
   color: #333;
-  font-weight: 700; /* Bold as requested */
+  font-weight: 700;
   letter-spacing: -1px;
+  transition: opacity 0.3s ease;
+}
+
+/* Search UI */
+.search-container {
+  display: flex;
+  align-items: center;
+}
+
+#search-toggle, #search-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: #666;
+  padding: 5px;
+  transition: color 0.2s;
+}
+
+#search-toggle:hover { color: #1e6bb8; }
+
+.search-input-wrapper {
+  display: none;
+  align-items: center;
+  gap: 10px;
+}
+
+#post-search {
+  padding: 6px 15px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  font-size: 14px;
+  font-family: 'Open Sans', sans-serif;
+  outline: none;
+  width: 200px;
+}
+
+#header.search-active .site-title {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#header.search-active .search-input-wrapper {
+  display: flex;
+}
+
+#header.search-active #search-toggle {
+  display: none;
+}
+
+@media (max-width: 600px) {
+  .site-title { font-size: 24px; }
+  
+  #header.search-active .site-title {
+    display: none;
+  }
+  
+  #header.search-active .search-container {
+    width: 100%;
+  }
+
+  #header.search-active .search-input-wrapper {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  #post-search {
+    flex: 1;
+    width: auto;
+  }
 }
 
 main {
@@ -118,7 +190,7 @@ pre {
   margin: 0;
   -ms-overflow-style: none;
   scrollbar-width: none;
-  position: relative; /* For the internal button */
+  position: relative; /* For copy button */
 }
 
 pre:hover .copy-btn {

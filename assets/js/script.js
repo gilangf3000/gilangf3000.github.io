@@ -35,6 +35,54 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
   });
 
+  // Interactive Modern Search
+  const header = document.getElementById('header');
+  const searchToggle = document.getElementById('search-toggle');
+  const searchClose = document.getElementById('search-close');
+  const searchInput = document.getElementById('post-search');
+
+  if (searchToggle && searchClose && searchInput) {
+    // Open Search
+    searchToggle.addEventListener('click', () => {
+      header.classList.add('search-active');
+      searchInput.focus();
+    });
+
+    // Close Search
+    const closeSearch = () => {
+      header.classList.remove('search-active');
+      searchInput.value = '';
+      // Reset post visibility
+      document.querySelectorAll('.post-item').forEach(post => post.style.display = 'block');
+    };
+
+    searchClose.addEventListener('click', closeSearch);
+
+    // Keyboard ESC to close
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && header.classList.contains('search-active')) {
+        closeSearch();
+      }
+    });
+
+    // Filtering Logic
+    searchInput.addEventListener('input', (e) => {
+      const query = e.target.value.toLowerCase();
+      const posts = document.querySelectorAll('.post-item');
+      
+      posts.forEach(post => {
+        const title = post.querySelector('.post-title').innerText.toLowerCase();
+        const excerpt = post.querySelector('.post-excerpt').innerText.toLowerCase();
+        
+        if (title.includes(query) || excerpt.includes(query)) {
+          post.style.display = 'block';
+        } else {
+          post.style.display = 'none';
+        }
+      });
+    });
+  }
+
   // Targeted Adblock Detection via Monetag Domain
   async function checkAdBlock() {
     const monetagUrl = 'https://quge5.com/88/tag.min.js';
