@@ -205,18 +205,26 @@ div.highlight {
   padding: 0 !important;
 }
 
-/* Enhanced Code Block with Dark Theme Support */
+/* Professional Light Theme Code Box */
 pre {
-  background: #282c34 !important; /* Atom One Dark background fallback */
+  background: #f6f8fa !important; /* GitHub Light bg */
   padding: 18px !important;
   overflow-x: auto;
-  border-radius: 10px;
+  border: 1px solid #d0d7de !important; /* Visible border */
+  border-radius: 6px;
   margin: 0 !important;
   max-width: 100%;
   position: relative;
   font-size: 14px;
-  color: #abb2bf;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  color: #24292f;
+  
+  /* Hide scrollbars */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+pre::-webkit-scrollbar {
+  display: none;
 }
 
 pre:hover .copy-btn {
@@ -227,10 +235,10 @@ pre:hover .copy-btn {
   position: absolute;
   top: 10px;
   right: 10px;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: #fff;
+  border: 1px solid #d0d7de;
   border-radius: 4px;
-  color: #fff;
+  color: #57606a;
   padding: 6px 10px;
   cursor: pointer;
   opacity: 0;
@@ -240,8 +248,9 @@ pre:hover .copy-btn {
 }
 
 .copy-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: #fff;
+  background: #f3f4f6;
+  color: #1e6bb8;
+  border-color: #1e6bb8;
 }
 
 code {
