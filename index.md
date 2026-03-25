@@ -27,9 +27,3 @@ postingan, referensi, dan hal random lainnya.
 {% for page in site.misc %}
 - [{{ page.title }}]({{ page.url }})
 {% endfor %}
-
----
-
-<div align="center">
-  <sub>dibuat pake jekyll • santuy aja</sub>
-</div>
