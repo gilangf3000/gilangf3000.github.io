@@ -1,5 +1,6 @@
 ---
 layout: default
+title: Home
 ---
 
 blog pribadi yg simpel buat nyatet apa aja yg menurutku menarik.  
