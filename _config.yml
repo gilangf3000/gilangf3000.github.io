@@ -3,6 +3,7 @@ title: "gilang's blog"
 description: "tempat sharing ide, kode, dan hasil ngulik-ngulik tech."
 url: "https://gilangf3000.github.io"
 author: "gilang"
+keywords: [blog, gilang, tech, ngulik, tutorial]
 markdown: kramdown
 kramdown:
   input: GFM

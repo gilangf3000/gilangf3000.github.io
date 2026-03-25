@@ -2,6 +2,7 @@
 layout: default
 title: home
 description: tempat sharing ide, kode, dan hasil ngulik-ngulik tech.
+keywords: [home, gilang, blog, teknologi]
 ---
 
 <div class="post-list">
