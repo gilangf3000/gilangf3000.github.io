@@ -6,7 +6,7 @@ html, body {
   height: 100%;
   -ms-overflow-style: none;
   scrollbar-width: none;
-  overflow-x: hidden; /* Prevent horizontal scroll */
+  overflow-x: hidden;
 }
 
 body {
@@ -205,15 +205,15 @@ div.highlight {
   padding: 0 !important;
 }
 
+/* Allow Highlight.js to control the box but ensure compatibility with our copy button */
 pre {
-  background: #f8f9fa;
-  padding: 15px;
+  padding: 15px !important;
   overflow-x: auto;
-  border-radius: 6px;
-  border: 1px solid #eef0f2;
+  border-radius: 8px;
   margin: 0 !important;
   max-width: 100%;
   position: relative;
+  font-size: 14px;
 }
 
 pre:hover .copy-btn {
@@ -224,7 +224,7 @@ pre:hover .copy-btn {
   position: absolute;
   top: 10px;
   right: 10px;
-  background: #fff;
+  background: rgba(255, 255, 255, 0.8);
   border: 1px solid #ddd;
   border-radius: 4px;
   color: #666;
@@ -233,18 +233,17 @@ pre:hover .copy-btn {
   opacity: 0;
   transition: all 0.2s ease;
   z-index: 10;
-  font-size: 13px;
+  font-size: 12px;
 }
 
 .copy-btn:hover {
-  background: #f8f9fa;
+  background: #fff;
   color: #1e6bb8;
   border-color: #1e6bb8;
 }
 
 code {
   font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
-  font-size: 0.9em;
 }
 
 img {
