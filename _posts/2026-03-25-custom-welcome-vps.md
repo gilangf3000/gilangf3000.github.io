@@ -1,6 +1,6 @@
 ---
 layout: post
-title: welcome banner vps (terminal linux)
+title: tutorial: cara ubah pesan welcome di terminal linux (vps ssh)
 date: 2026-03-25
 emoji: 🖥️
 keywords: [vps, linux, banner, terminal, tutorial, server]

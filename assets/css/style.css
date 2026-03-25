@@ -118,6 +118,33 @@ pre {
   margin: 0;
   -ms-overflow-style: none;
   scrollbar-width: none;
+  position: relative; /* For the internal button */
+}
+
+pre:hover .copy-btn {
+  opacity: 1;
+}
+
+.copy-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  color: #666;
+  padding: 5px 8px;
+  cursor: pointer;
+  opacity: 0;
+  transition: all 0.2s ease;
+  z-index: 10;
+  font-size: 14px;
+}
+
+.copy-btn:hover {
+  background: #f8f9fa;
+  color: #1e6bb8;
+  border-color: #1e6bb8;
 }
 
 pre::-webkit-scrollbar {
