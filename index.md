@@ -1,4 +1,6 @@
-# gilangf3000's space — catatan & arsip
+---
+layout: default
+---
 
 blog pribadi yg simpel buat nyatet apa aja yg menurutku menarik.  
 postingan, referensi, dan hal random lainnya.
