@@ -1,13 +1,11 @@
 ---
-layout: default
+layout: post
 title: welcome banner vps (terminal linux)
 date: 2026-03-25
 emoji: 🖥️
 ---
 
-## pasang welcome banner di vps linux
-
-biar tiap login ssh gak terasa kosong dan ngebosenin, jadi bukan cuma layar hitam doang tapi langsung ada tampilan info server yang jelas dan enak dilihat, mulai dari hostname, uptime, ip, sampai cpu dan ram semuanya langsung muncul tanpa perlu ngetik perintah lagi, jadi lebih cepat, lebih praktis, dan tetap simple tapi keliatan rapi dan profesional tiap kali masuk server.
+biar tiap login ssh gak terasa kosong dan ngebosenin, kita bisa pasang welcome banner. jadi bukan cuma layar hitam doang, tapi langsung ada tampilan info server yang jelas: mulai dari hostname, uptime, ip, sampai cpu dan ram. semuanya muncul otomatis tanpa perlu ngetik perintah lagi. lebih praktis dan keliatan rapi tiap kali masuk server.
 
 ---
 
@@ -15,43 +13,32 @@ biar tiap login ssh gak terasa kosong dan ngebosenin, jadi bukan cuma layar hita
 
 ![preview](/assets/img/welcome.png)
 
-tampilan akan muncul otomatis setiap kali kamu login via ssh.  
-informasi yang ditampilkan:
-- nama server dan user yang login
-- waktu saat login
-- lama server berjalan (uptime)
-- alamat ip server
-- spesifikasi cpu dan jumlah core
-- penggunaan ram
-- penggunaan disk
-
----
-
-## lokasi script
-
-```bash
-/etc/profile.d/welcome.sh
-```
-
-kenapa di folder ini?
-folder /etc/profile.d/ adalah tempat khusus di linux untuk menyimpan script yang akan dijalankan secara otomatis saat user login.
-semua file dengan ekstensi .sh di folder ini akan dieksekusi oleh sistem ketika ada user yang login, baik via ssh maupun langsung di terminal.
+tampilan ini bakal muncul otomatis setiap kali kamu login via ssh. informasi yang ditampilin antara lain:
+- **identitas**: nama server dan user yang login.
+- **waktu**: jam dan tanggal saat login.
+- **uptime**: sudah berapa lama server berjalan.
+- **network**: alamat ip server.
+- **hardware**: spek cpu, jumlah core, penggunaan ram, dan sisa disk.
 
 ---
 
 ## cara pasang
 
-bisa langsung edit pakai nano:
+kita bakal naruh scriptnya di `/etc/profile.d/welcome.sh`. folder ini khusus buat nyimpen script yang bakal jalan otomatis pas ada user login.
 
+### 1. buat file script
+buka terminal dan ketik perintah ini buat bikin filenya:
 ```bash
-nano /etc/profile.d/welcome.sh
+sudo nano /etc/profile.d/welcome.sh
 ```
 
-paste script ini
+### 2. paste script di bawah
+silakan copy dan paste script bash ini ke dalam editor:
 
 ```bash
 #!/bin/bash
 
+# konfigurasi warna
 C1="\033[1;38;5;51m"
 C2="\033[1;38;5;45m"
 C3="\033[1;38;5;39m"
@@ -59,10 +46,12 @@ TXT="\033[1;37m"
 DIM="\033[0;37m"
 NC="\033[0m"
 
+# fungsi teks tengah
 center() {
   printf "%*s\n" $(((${#1} + $(tput cols)) / 2)) "$1"
 }
 
+# ambil data sistem
 HOST=$(hostname)
 USER=$(whoami)
 IP=$(hostname -I | awk '{print $1}')
@@ -74,6 +63,7 @@ CORE=$(nproc)
 RAM=$(free -m | awk '/Mem:/ {printf "%dMB / %dMB", $3, $2}')
 DISK=$(df -h / | awk 'NR==2 {print $3 " / " $2}')
 
+# tampilkan banner
 clear
 echo ""
 echo -e "${C1}$(center "AwanCore")${NC}"
@@ -90,25 +80,28 @@ echo -e "${DIM}Disk    ${NC}: ${TXT}$DISK${NC}"
 echo ""
 ```
 
-simpan
+### 3. simpan dan keluar
+- tekan `ctrl + x`
+- tekan `y`
+- tekan `enter`
 
-tekan:
-ctrl + x
-lalu y
-enter
-
-kasih izin biar bisa jalan
-
+### 4. kasih izin eksekusi
+biar scriptnya bisa jalan, kita perlu kasih izin `chmod`:
 ```bash
-chmod +x /etc/profile.d/welcome.sh
+sudo chmod +x /etc/profile.d/welcome.sh
 ```
 
-selesai
-keluar dari ssh lalu login lagi
-atau ketik:
+---
 
+## cara tes tanpa relogin
+
+kalo males keluar masuk ssh cuma buat liat hasilnya, kamu bisa ketik perintah ini:
 ```bash
 source /etc/profile.d/welcome.sh
 ```
 
-biar langsung muncul tanpa relogin
+sekarang tiap kali kamu login, terminal kamu gak bakal sepi lagi. santuy aja!
+
+---
+
+*p.s. butuh vps murah dan kenceng? cek di [awancore.biz.id](https://awancore.biz.id/) ya!*

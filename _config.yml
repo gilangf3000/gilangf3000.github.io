@@ -1,8 +1,14 @@
 theme: minima
 title: "gilang's blog"
-description: "blog pribadi yg simpel"
+description: "tempat sharing ide, kode, dan hasil ngulik-ngulik tech."
 url: "https://gilangf3000.github.io"
+author: "gilang"
 markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+highlighter: rouge
 
 plugins:
   - jekyll-feed

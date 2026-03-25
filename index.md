@@ -1,9 +1,23 @@
 ---
 layout: default
-title: Home
+title: home
+description: tempat sharing ide, kode, dan hasil ngulik-ngulik tech.
 ---
 
-{% for post in site.posts %}
-<div style="opacity: 0.5">{{ post.date | date_to_string  }}</div>
-<h2><a href="{{ post.url }}">{{ post.emoji }} {{ post.title }}</a></h2>
-{% endfor %}
+<div class="post-list">
+  {% for post in site.posts %}
+  <article class="post-item">
+    <div class="post-meta">
+      {{ post.date | date: "%B %-d, %Y" | downcase }}
+    </div>
+    <h2 class="post-title">
+      <a href="{{ post.url | relative_url }}">
+        {{ post.emoji }} {{ post.title }}
+      </a>
+    </h2>
+    <div class="post-excerpt">
+      {{ post.excerpt | strip_html | truncatewords: 30 }}
+    </div>
+  </article>
+  {% endfor %}
+</div>
