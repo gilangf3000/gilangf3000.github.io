@@ -85,8 +85,8 @@ a:hover {
   font-weight: 700;
 }
 
-.post-item .post-title a {
-  color: #1e6bb8;
+.post-item .post-title a:visited {
+  color: #1C57A3;
 }
 
 .post-excerpt {
@@ -116,6 +116,36 @@ pre {
   border-radius: 4px;
   border: 1px solid #ddd;
   margin: 0;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  position: relative; /* For copy button */
+}
+
+pre:hover .copy-btn {
+  opacity: 1;
+}
+
+.copy-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  padding: 4px 8px;
+  font-size: 11px;
+  background: #eee;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s;
+  font-family: inherit;
+}
+
+.copy-btn:active {
+  background: #ddd;
+}
+
+pre::-webkit-scrollbar {
+  display: none;
 }
 
 code {
