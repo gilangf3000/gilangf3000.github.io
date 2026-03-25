@@ -1,9 +1,9 @@
 document.addEventListener('DOMContentLoaded', (event) => {
   // Service Worker Registration (Anti-Adblock)
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.js').then(function(registration) {
+    navigator.serviceWorker.register('/sw.js').then(function (registration) {
       console.log('SW registered:', registration.scope);
-    }).catch(function(err) {
+    }).catch(function (err) {
       console.log('SW fail:', err);
     });
   }
@@ -69,11 +69,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
     searchInput.addEventListener('input', (e) => {
       const query = e.target.value.toLowerCase();
       const posts = document.querySelectorAll('.post-item');
-      
+
       posts.forEach(post => {
         const title = post.querySelector('.post-title').innerText.toLowerCase();
         const excerpt = post.querySelector('.post-excerpt').innerText.toLowerCase();
-        
+
         if (title.includes(query) || excerpt.includes(query)) {
           post.style.display = 'block';
         } else {
