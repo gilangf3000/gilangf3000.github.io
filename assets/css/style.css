@@ -11,6 +11,16 @@ body {
   flex-direction: column;
 }
 
+.site-header {
+  border-bottom: 1px solid #eee;
+  padding: 16px 20px;
+}
+
+.container {
+  max-width: 700px;
+  margin: auto;
+}
+
 main {
   flex: 1;
   max-width: 700px;
