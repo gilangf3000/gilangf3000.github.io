@@ -1,18 +1,16 @@
-body {
+html, body {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
   margin: 0;
   padding: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   color: #333;
-  background: #fff; /* Always white */
+  background: #fff;
 }
 
-/* Hard-disable dark mode by removing/overriding media queries */
-@media (prefers-color-scheme: dark) {
-  body {
-    background: #fff !important;
-    color: #333 !important;
-  }
+html::-webkit-scrollbar, body::-webkit-scrollbar {
+  display: none;
 }
 
 .container {
@@ -22,13 +20,13 @@ body {
 }
 
 header.site-header {
-  padding: 30px 0 10px 0;
+  padding: 15px 0 5px 0;
   border-bottom: 1px solid #f1f1f1;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 }
 
 .site-title {
-  font-size: 34px;
+  font-size: 30px;
   text-decoration: none;
   color: #333;
   font-weight: 200;
@@ -36,7 +34,7 @@ header.site-header {
 }
 
 main {
-  min-height: 400px;
+  min-height: 100px;
 }
 
 a {
@@ -48,7 +46,6 @@ a:hover {
   text-decoration: underline;
 }
 
-/* Post list styling */
 .post-list {
   padding: 0;
 }
@@ -80,7 +77,6 @@ a:hover {
   margin-top: 5px;
 }
 
-/* Post content styling */
 .post-header {
   margin-bottom: 30px;
 }
@@ -90,7 +86,6 @@ a:hover {
   line-height: 1.6;
 }
 
-/* Fix "kebesaran" and "2 box" issue */
 div.highlight {
   margin: 15px 0;
   padding: 0;
@@ -102,13 +97,13 @@ pre {
   overflow: auto;
   border-radius: 4px;
   border: 1px solid #ddd;
-  margin: 0; /* Align with highlight div */
+  margin: 0;
 }
 
 code {
   font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
   font-size: 0.9em;
-  background: transparent !important; /* No extra boxes */
+  background: transparent !important;
   padding: 0 !important;
 }
 
@@ -120,16 +115,15 @@ img {
 }
 
 footer {
-  margin-top: 80px;
-  padding: 40px 0;
+  margin-top: 40px;
+  padding: 20px 0;
   border-top: 1px solid #f1f1f1;
   font-size: 13px;
   color: #999;
-  text-align: left; /* Align with content index */
+  text-align: center;
 }
 
 .back-link {
   display: inline-block;
   margin-bottom: 20px;
-  font-size: 16px;
 }
