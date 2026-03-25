@@ -205,15 +205,18 @@ div.highlight {
   padding: 0 !important;
 }
 
-/* Allow Highlight.js to control the box but ensure compatibility with our copy button */
+/* Enhanced Code Block with Dark Theme Support */
 pre {
-  padding: 15px !important;
+  background: #282c34 !important; /* Atom One Dark background fallback */
+  padding: 18px !important;
   overflow-x: auto;
-  border-radius: 8px;
+  border-radius: 10px;
   margin: 0 !important;
   max-width: 100%;
   position: relative;
   font-size: 14px;
+  color: #abb2bf;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 pre:hover .copy-btn {
@@ -224,10 +227,10 @@ pre:hover .copy-btn {
   position: absolute;
   top: 10px;
   right: 10px;
-  background: rgba(255, 255, 255, 0.8);
-  border: 1px solid #ddd;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 4px;
-  color: #666;
+  color: #fff;
   padding: 6px 10px;
   cursor: pointer;
   opacity: 0;
@@ -237,9 +240,8 @@ pre:hover .copy-btn {
 }
 
 .copy-btn:hover {
-  background: #fff;
-  color: #1e6bb8;
-  border-color: #1e6bb8;
+  background: rgba(255, 255, 255, 0.2);
+  border-color: #fff;
 }
 
 code {
