@@ -29,6 +29,7 @@
   <header class="site-header" id="header">
     <div class="container header-content">
       <a class="site-title" href="{{ '/' | relative_url }}">{{ site.title }}</a>
+      {% if page.url == "/" or page.url == "/index.html" %}
       <div class="search-container" id="search-container">
         <button id="search-toggle" aria-label="Toggle search"><i class="fa-solid fa-magnifying-glass"></i></button>
         <div class="search-input-wrapper">
@@ -36,6 +37,7 @@
           <button id="search-close" aria-label="Close search"><i class="fa-solid fa-xmark"></i></button>
         </div>
       </div>
+      {% endif %}
     </div>
   </header>
 
