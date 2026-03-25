@@ -1,33 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ page.title }}</title>
-  <style>
-    html, body {
-      height: 100%;
-      margin: 0;
-    }
 
-    body {
-      display: flex;
-      flex-direction: column;
-    }
-
-    main {
-      flex: 1;
-    }
-
-    footer {
-      text-align: center;
-      padding: 10px;
-      font-size: 12px;
-      color: #666;
-    }
-  </style>
+  <link rel="stylesheet" href="/assets/css/style.css">
 </head>
-
 <body>
+
+  <header class="site-header">
+    <div class="container">
+      <strong>{{ site.title }}</strong>
+    </div>
+  </header>
 
   <main>
     {{ content }}
