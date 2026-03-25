@@ -29,68 +29,86 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: relative;
+  height: 60px;
 }
 
 header.site-header {
-  padding: 15px 0 10px 0;
+  padding: 10px 0;
   border-bottom: 1px solid #f1f1f1;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
   background: #fff;
-  transition: all 0.3s ease;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
 .site-title {
   font-family: 'Montserrat', sans-serif;
-  font-size: 28px;
+  font-size: 26px;
   text-decoration: none;
   color: #333;
   font-weight: 700;
   letter-spacing: -1px;
-  transition: opacity 0.3s ease;
+  transition: all 0.3s ease;
+  white-space: nowrap;
 }
 
-/* Search UI */
+/* Search UI Modern */
 .search-container {
   display: flex;
   align-items: center;
+  gap: 10px;
 }
 
 #search-toggle, #search-close {
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 18px;
+  font-size: 20px;
   color: #666;
-  padding: 5px;
-  transition: color 0.2s;
+  padding: 8px;
+  transition: transform 0.2s, color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-#search-toggle:hover { color: #1e6bb8; }
+#search-toggle:hover { color: #1e6bb8; transform: scale(1.1); }
+#search-close:hover { color: #d9534f; transform: rotate(90deg); }
 
 .search-input-wrapper {
   display: none;
   align-items: center;
-  gap: 10px;
+  gap: 15px;
+  background: #f8f9fa;
+  padding: 2px 15px;
+  border-radius: 30px;
+  border: 1px solid #eee;
 }
 
 #post-search {
-  padding: 6px 15px;
-  border: 1px solid #ddd;
-  border-radius: 20px;
-  font-size: 14px;
+  background: transparent;
+  border: none;
+  font-size: 15px;
   font-family: 'Open Sans', sans-serif;
   outline: none;
-  width: 200px;
+  width: 250px;
+  padding: 8px 0;
+  color: #333;
 }
 
 #header.search-active .site-title {
-  opacity: 0;
-  pointer-events: none;
+  display: none;
+}
+
+#header.search-active .search-container {
+  width: 100%;
 }
 
 #header.search-active .search-input-wrapper {
   display: flex;
+  width: 100%;
+  justify-content: space-between;
 }
 
 #header.search-active #search-toggle {
@@ -98,24 +116,10 @@ header.site-header {
 }
 
 @media (max-width: 600px) {
-  .site-title { font-size: 24px; }
+  .site-title { font-size: 22px; }
   
-  #header.search-active .site-title {
-    display: none;
-  }
-  
-  #header.search-active .search-container {
-    width: 100%;
-  }
-
-  #header.search-active .search-input-wrapper {
-    width: 100%;
-    justify-content: space-between;
-  }
-
   #post-search {
-    flex: 1;
-    width: auto;
+    width: 100%;
   }
 }
 
@@ -141,20 +145,22 @@ a:hover {
 }
 
 .post-item {
-  margin-bottom: 25px;
+  margin-bottom: 30px;
 }
 
 .post-meta {
   color: #999;
-  font-size: 14px;
+  font-size: 13px;
   display: block;
-  margin-bottom: 0px;
+  margin-bottom: 2px;
+  text-transform: capitalize;
 }
 
 .post-title {
   margin: 0;
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 700;
+  line-height: 1.3;
 }
 
 .post-item .post-title a:visited {
@@ -163,34 +169,34 @@ a:hover {
 
 .post-excerpt {
   font-size: 15px;
-  color: #555;
-  margin-top: 5px;
+  color: #666;
+  margin-top: 8px;
+  line-height: 1.5;
 }
 
 .post-header {
-  margin-bottom: 30px;
+  margin-bottom: 35px;
 }
 
 .post-content {
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   line-height: 1.7;
 }
 
 div.highlight {
-  margin: 15px 0;
-  padding: 0;
+  margin: 20px 0;
 }
 
 pre {
-  background: #f6f8fa;
-  padding: 12px;
+  background: #f8f9fa;
+  padding: 15px;
   overflow: auto;
-  border-radius: 4px;
-  border: 1px solid #ddd;
+  border-radius: 6px;
+  border: 1px solid #eef0f2;
   margin: 0;
   -ms-overflow-style: none;
   scrollbar-width: none;
-  position: relative; /* For copy button */
+  position: relative;
 }
 
 pre:hover .copy-btn {
@@ -199,18 +205,18 @@ pre:hover .copy-btn {
 
 .copy-btn {
   position: absolute;
-  top: 8px;
-  right: 8px;
+  top: 10px;
+  right: 10px;
   background: #fff;
   border: 1px solid #ddd;
   border-radius: 4px;
   color: #666;
-  padding: 5px 8px;
+  padding: 6px 10px;
   cursor: pointer;
   opacity: 0;
   transition: all 0.2s ease;
   z-index: 10;
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .copy-btn:hover {
@@ -226,34 +232,26 @@ pre::-webkit-scrollbar {
 code {
   font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
   font-size: 0.9em;
-  background: transparent !important;
-  padding: 0 !important;
 }
 
 img {
   max-width: 100%;
   height: auto;
   display: block;
-  margin: 20px 0;
+  margin: 25px 0;
+  border-radius: 8px;
 }
 
 footer {
-  margin-top: 20px;
-  padding: 20px 0;
+  margin-top: 30px;
+  padding: 30px 0;
   border-top: 1px solid #f1f1f1;
   font-size: 13px;
-  color: #999;
+  color: #aaa;
   text-align: center;
-}
-
-@media (max-width: 600px) {
-  footer {
-    padding: 15px 0;
-    margin-top: 15px;
-  }
 }
 
 .back-link {
   display: inline-block;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
