@@ -17,7 +17,7 @@ keywords: [home, gilang, blog, teknologi]
       </a>
     </div>
     <div class="post-excerpt">
-      {{ post.content | strip_html | split: "." | first | append: "." | truncatewords: 20 }}
+      {{ post.content | strip_html | split: "." | first | append: "..." }}
     </div>
   </article>
   {% endfor %}
