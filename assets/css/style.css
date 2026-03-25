@@ -1,55 +1,49 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: Georgia, serif; /* Classic, easy on the eyes */
-  line-height: 1.6;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  line-height: 1.5;
   color: #333;
   background: #fff;
-  /* text-transform: lowercase; <- Removed to go back to "normal" */
 }
 
 @media (prefers-color-scheme: dark) {
   body {
-    background: #1a1a1b;
-    color: #d7dadc;
+    background: #111;
+    color: #eee;
   }
   header.site-header { border-bottom-color: #333 !important; }
-  footer { border-top-color: #333 !important; }
-  .post-item { border-bottom-color: #333 !important; }
-  pre { background: #272729 !important; border-color: #333 !important; }
-  a { color: #4dabf7 !important; }
+  .post-item { border-bottom-color: #222 !important; }
+  a { color: #58a6ff !important; }
+  .post-meta { color: #888 !important; }
 }
 
 .container {
   width: 90%;
-  max-width: 700px;
+  max-width: 800px;
   margin: 0 auto;
 }
 
 header.site-header {
-  padding: 40px 0 20px 0;
+  padding: 30px 0 10px 0;
   border-bottom: 1px solid #eee;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
 }
 
 .site-title {
-  font-size: 28px;
+  font-size: 32px;
   text-decoration: none;
-  color: inherit;
-  font-weight: bold;
+  color: #444;
+  font-weight: 200; /* Extra light like in the screenshot */
+  letter-spacing: -0.5px;
 }
 
 main {
   min-height: 400px;
 }
 
-h1, h2, h3 {
-  color: inherit;
-  margin-top: 40px;
-}
-
 a {
-  color: #0000ee;
+  color: #1e6bb8; /* The blue from the screenshot */
   text-decoration: none;
 }
 
@@ -57,56 +51,74 @@ a:hover {
   text-decoration: underline;
 }
 
+/* Post list styling - matching screenshot */
 .post-item {
-  margin-bottom: 40px;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 20px;
+  margin-bottom: 25px;
+  border-bottom: 1px solid #f9f9f9;
+  padding-bottom: 15px;
 }
 
 .post-meta {
-  color: #888;
-  font-size: 14px;
+  color: #999;
+  font-size: 13px;
+  display: block;
+  margin-bottom: 2px;
 }
 
 .post-title {
-  margin: 10px 0;
-  font-size: 22px;
+  margin: 0;
+  font-size: 20px;
+  font-weight: 400;
 }
 
-/* Image styling - "jangan over" */
+.post-item .post-title a {
+  color: #1e6bb8;
+}
+
+/* Post content styling */
+.post-content {
+  font-family: Georgia, serif; /* Easier on eyes for long reading */
+  font-size: 1.1rem;
+  line-height: 1.7;
+}
+
 img {
   max-width: 100%;
   height: auto;
   display: block;
-  margin: 30px auto;
-  border: 1px solid #ddd;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  margin: 30px 0;
 }
 
 pre {
-  background: #f4f4f4;
-  padding: 20px;
-  overflow-x: auto;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  background: #f6f8fa;
+  padding: 16px;
+  overflow: auto;
+  border-radius: 6px;
+  border: 1px solid #eaecef;
+}
+
+@media (prefers-color-scheme: dark) {
+  pre {
+    background: #161b22;
+    border-color: #30363d;
+  }
+  .site-title { color: #ccc; }
 }
 
 code {
-  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
-  font-size: 0.95em;
+  font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
+  font-size: 85%;
 }
 
 footer {
-  margin-top: 80px;
-  padding: 40px 0;
+  margin-top: 60px;
+  padding: 30px 0;
   border-top: 1px solid #eee;
-  text-align: center;
-  font-size: 14px;
-  color: #888;
+  font-size: 13px;
+  color: #999;
 }
 
-.back-link {
-  display: inline-block;
-  margin-bottom: 30px;
-  font-size: 14px;
+@media (max-width: 600px) {
+  .site-title { font-size: 24px; }
+  .post-title { font-size: 18px; }
 }

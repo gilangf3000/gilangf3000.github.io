@@ -6,20 +6,11 @@ emoji: 🖥️
 keywords: [vps, linux, banner, terminal, tutorial, server]
 ---
 
-biar tiap login ssh gak terasa kosong dan ngebosenin, kita bisa pasang welcome banner. jadi bukan cuma layar hitam doang, tapi langsung ada tampilan info server yang jelas: mulai dari hostname, uptime, ip, sampai cpu dan ram. semuanya muncul otomatis tanpa perlu ngetik perintah lagi. lebih praktis dan keliatan rapi tiap kali masuk server.
-
----
-
-## hasil akhir
+*biar tiap login ssh gak terasa kosong dan ngebosenin, kita bisa pasang welcome banner. jadi bukan cuma layar hitam doang, tapi langsung ada tampilan info server yang jelas: mulai dari hostname, uptime, ip, sampai cpu dan ram. semuanya muncul otomatis tanpa perlu ngetik perintah lagi. lebih praktis dan keliatan rapi tiap kali masuk server.*
 
 ![preview](/assets/img/welcome.png)
 
-tampilan ini bakal muncul otomatis setiap kali kamu login via ssh. informasi yang ditampilin antara lain:
-- **identitas**: nama server dan user yang login.
-- **waktu**: jam dan tanggal saat login.
-- **uptime**: sudah berapa lama server berjalan.
-- **network**: alamat ip server.
-- **hardware**: spek cpu, jumlah core, penggunaan ram, dan sisa disk.
+tampilan ini bakal muncul otomatis setiap kali kamu login via ssh. informasi yang ditampilin antara lain: identitas server, waktu login, uptime, ip address, hingga spesifikasi hardware seperti cpu, ram, dan penggunaan disk.
 
 ---
 
@@ -33,13 +24,13 @@ buka terminal dan ketik perintah ini buat bikin filenya:
 sudo nano /etc/profile.d/welcome.sh
 ```
 
-### 2. paste script di bawah
+### 2. isi dengan script ini
 silakan copy dan paste script bash ini ke dalam editor:
 
 ```bash
 #!/bin/bash
 
-# konfigurasi warna
+# AwanCore Banner Script
 C1="\033[1;38;5;51m"
 C2="\033[1;38;5;45m"
 C3="\033[1;38;5;39m"
@@ -47,12 +38,10 @@ TXT="\033[1;37m"
 DIM="\033[0;37m"
 NC="\033[0m"
 
-# fungsi teks tengah
 center() {
   printf "%*s\n" $(((${#1} + $(tput cols)) / 2)) "$1"
 }
 
-# ambil data sistem
 HOST=$(hostname)
 USER=$(whoami)
 IP=$(hostname -I | awk '{print $1}')
@@ -64,7 +53,6 @@ CORE=$(nproc)
 RAM=$(free -m | awk '/Mem:/ {printf "%dMB / %dMB", $3, $2}')
 DISK=$(df -h / | awk 'NR==2 {print $3 " / " $2}')
 
-# tampilkan banner
 clear
 echo ""
 echo -e "${C1}$(center "AwanCore")${NC}"
@@ -81,27 +69,16 @@ echo -e "${DIM}Disk    ${NC}: ${TXT}$DISK${NC}"
 echo ""
 ```
 
-### 3. simpan dan keluar
-- tekan `ctrl + x`
-- tekan `y`
-- tekan `enter`
-
-### 4. kasih izin eksekusi
-biar scriptnya bisa jalan, kita perlu kasih izin `chmod`:
+### 3. simpan dan beri izin
+setelah disave (`ctrl+x`, `y`, `enter`), jalankan perintah ini:
 ```bash
 sudo chmod +x /etc/profile.d/welcome.sh
 ```
 
----
-
-## cara tes tanpa relogin
-
-kalo males keluar masuk ssh cuma buat liat hasilnya, kamu bisa ketik perintah ini:
+### 4. tes tanpa relogin
 ```bash
 source /etc/profile.d/welcome.sh
 ```
-
-sekarang tiap kali kamu login, terminal kamu gak bakal sepi lagi. santuy aja!
 
 ---
 
