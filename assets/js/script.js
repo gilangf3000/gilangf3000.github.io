@@ -35,14 +35,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
   });
 
-  // Reliable Adblock Detection via Fetch
+  // Targeted Adblock Detection via Monetag Domain
   async function checkAdBlock() {
-    const googleAdUrl = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
+    const monetagUrl = 'https://quge5.com/88/tag.min.js';
     try {
-      await fetch(new Request(googleAdUrl, { method: 'HEAD', mode: 'no-cors' }));
-      return false; // Ads not blocked
+      await fetch(new Request(monetagUrl, { method: 'HEAD', mode: 'no-cors' }));
+      return false; // Monetag OK
     } catch (e) {
-      return true; // Ads blocked
+      return true; // Monetag Blocked (likely by DNS or aggressive adblock)
     }
   }
 
