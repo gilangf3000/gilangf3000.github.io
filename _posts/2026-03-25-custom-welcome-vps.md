@@ -4,6 +4,7 @@ title: "tutorial: cara ubah pesan welcome di terminal linux (vps ssh)"
 date: 2026-03-25
 emoji: 🖥️
 keywords: [vps, linux, banner, terminal, tutorial, server]
+image: /assets/img/welcome.png
 ---
 
 *biar tiap login ssh gak terasa kosong dan ngebosenin, kita bisa pasang welcome banner. jadi bukan cuma layar hitam doang, tapi langsung ada tampilan info server yang jelas: mulai dari hostname, uptime, ip, sampai cpu dan ram. semuanya muncul otomatis tanpa perlu ngetik perintah lagi. lebih praktis dan keliatan rapi tiap kali masuk server.*

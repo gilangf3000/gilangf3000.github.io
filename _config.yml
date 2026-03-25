@@ -11,6 +11,15 @@ kramdown:
 
 highlighter: rouge
 
+twitter:
+  username: gilangf3000
+  card: summary_large_image
+social:
+  name: gilang
+  links:
+    - https://github.com/gilangf3000
+logo: /assets/img/welcome.png
+
 plugins:
   - jekyll-feed
   - jekyll-sitemap
