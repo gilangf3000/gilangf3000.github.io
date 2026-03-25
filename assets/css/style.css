@@ -1,7 +1,12 @@
+* {
+  box-sizing: border-box;
+}
+
 html, body {
   height: 100%;
   -ms-overflow-style: none;
   scrollbar-width: none;
+  overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
 body {
@@ -29,7 +34,7 @@ html::-webkit-scrollbar, body::-webkit-scrollbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 60px;
+  min-height: 60px;
 }
 
 header.site-header {
@@ -50,7 +55,8 @@ header.site-header {
   font-weight: 700;
   letter-spacing: -1px;
   transition: all 0.3s ease;
-  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Search UI Modern */
@@ -68,13 +74,13 @@ header.site-header {
   color: #666;
   padding: 8px;
   transition: transform 0.2s, color 0.2s;
-  display: none; /* Hidden on desktop by default */
+  display: none;
   align-items: center;
   justify-content: center;
 }
 
 .search-input-wrapper {
-  display: flex; /* Show by default on desktop */
+  display: flex;
   align-items: center;
   gap: 15px;
   background: #f8f9fa;
@@ -95,14 +101,18 @@ header.site-header {
 }
 
 @media (max-width: 600px) {
-  .site-title { font-size: 22px; }
+  .site-title { font-size: 20px; }
   
+  .header-content {
+    min-height: 50px;
+  }
+
   #search-toggle {
-    display: flex; /* Show toggle on mobile */
+    display: flex;
   }
 
   .search-input-wrapper {
-    display: none; /* Hide input on mobile initially */
+    display: none;
   }
 
   #header.search-active .site-title {
@@ -117,14 +127,6 @@ header.site-header {
     display: flex;
     width: 100%;
     justify-content: space-between;
-  }
-
-  #header.search-active #search-toggle {
-    display: none;
-  }
-
-  #header.search-active #search-close {
-    display: flex;
   }
 
   #post-search {
@@ -155,6 +157,7 @@ a:hover {
 
 .post-item {
   margin-bottom: 30px;
+  overflow: hidden;
 }
 
 .post-meta {
@@ -181,6 +184,7 @@ a:hover {
   color: #666;
   margin-top: 8px;
   line-height: 1.5;
+  word-wrap: break-word;
 }
 
 .post-header {
@@ -190,21 +194,23 @@ a:hover {
 .post-content {
   font-size: 1.1rem;
   line-height: 1.7;
+  word-wrap: break-word;
 }
 
 div.highlight {
   margin: 20px 0;
+  max-width: 100%;
+  overflow: hidden;
 }
 
 pre {
   background: #f8f9fa;
   padding: 15px;
-  overflow: auto;
+  overflow-x: auto;
   border-radius: 6px;
   border: 1px solid #eef0f2;
   margin: 0;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+  max-width: 100%;
   position: relative;
 }
 
@@ -232,10 +238,6 @@ pre:hover .copy-btn {
   background: #f8f9fa;
   color: #1e6bb8;
   border-color: #1e6bb8;
-}
-
-pre::-webkit-scrollbar {
-  display: none;
 }
 
 code {
