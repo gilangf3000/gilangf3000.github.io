@@ -8,18 +8,8 @@ keywords: [home, gilang, blog, teknologi]
 <div class="post-list">
   {% for post in site.posts %}
   <article class="post">
-  {% if page.image %}
-  <div class="post-hero">
-    <img src="{{ page.image | relative_url }}" alt="{{ page.title }}">
-  </div>
-  {% endif %}
-  <header class="post-header">
-    <h1 class="post-title">{{ page.title }}</h1>
-    <div class="post-meta">
-      {{ post.date | date: "%-d %B %Y" | downcase }}
-    </div>
     {% if post.image %}
-    <div class="post-thumbnail">
+    <div class="post-hero">
       <a href="{{ post.url | relative_url }}">
         <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
       </a>
