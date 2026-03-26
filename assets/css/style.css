@@ -21,7 +21,6 @@ body {
   overflow-x: hidden;
   margin: 0;
   padding: 0;
-  text-transform: lowercase;
 }
 
 html::-webkit-scrollbar,
@@ -238,7 +237,6 @@ pre {
 code, kbd, pre, samp, .copy-btn, .highlight, .highlight * {
   font-family: var(--mono-font);
   font-size: 0.9em;
-  text-transform: none !important;
 }
 
 img {

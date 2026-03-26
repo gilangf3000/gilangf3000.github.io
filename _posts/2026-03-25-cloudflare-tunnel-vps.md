@@ -56,15 +56,19 @@ Nah, langkah terakhir biar orang bisa buka lewat domain:
 - Masukin subdomain yang kamu mau (misal: `web.domainku.com`).
 - Di bagian **Service**, pilih `HTTP` dan arahkan ke `http://localhost:80` (kalo web server kamu jalan di port 80).
 - Klik **Save**. Tunggu 1 menit, dan website kamu sudah online lewat jalur aman!
+### 4. arahkan domain
+- tab **public hostname > add hostname**
+- isi domain/subdomain
+- service: `http` url: `localhost:80`
+- save.
+
+### tips
+satu tunnel bisa buat banyak domain. tinggal tambah **public hostname** baru di dashboard. misal `panel.domainku.com` tembak ke port `8888`.
+
+kalo error, cek log:
+```bash
+sudo journalctl -u cloudflared -f
+```
 
 ---
-
-## Tips Expert: Tambah Banyak App Sekaligus
-Satu tunnel itu muat banyak lho. Kamu tinggal tambah aja **Public Hostname** baru buat aplikasi lain. Misal `panel.domainku.com` tembak ke port `8888`. Semuanya bakal lewat satu jalur tunnel yang sama. Jadi hemat dan rapi kan?
-
-Kalo ada masalah atau tunnelnya nggak konek, tinggal intip aja log-nya pake perintah:
-`sudo journalctl -u cloudflared -f`
-
----
-
-*P.S. Butuh VPS kenceng buat eksperimen tunnel? Cek aja di [awancore.biz.id](https://awancore.biz.id/) - mulai 15rb-an aja, harga miring spek nendang!*
+*p.s. vps kenceng mulai 15rb-an? cek [awancore.biz.id](https://awancore.biz.id/)*
