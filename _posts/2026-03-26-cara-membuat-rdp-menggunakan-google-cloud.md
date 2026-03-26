@@ -25,7 +25,7 @@ metode ini disarankan buat kamu yang butuh windows "asli" dengan akses administr
 ### 1. buat vm instance baru
 - buka dashboard gcp, cari menu **compute engine > vm instances**.
 - klik tombol **create instance**.
-- kasih nama bebas, misal `vps-windows-rdp`.
+- kasih nama yang gampang kyk `vps-windows-rdp`.
 - pilih region terdekat (misal `asia-southeast2` jakarta) biar ping-nya kecil.
 
 ### 2. pilih boot disk windows server
@@ -34,7 +34,7 @@ ini bagian paling krusial! scroll ke blok **boot disk** dan klik **change**.
 - saranku pilih versi **windows server 2022 datacenter**.
 - ubah ukuran disk minimal **50gb** (default biasanya 50gb). klik select.
 
-### 3. atur firewall & identity
+### 3. aktifkan firewall & identity
 - di bagian firewall, centang **allow http traffic** dan **allow https traffic**.
 - klik tombol **create** dan tunggu status vm-nya muncul centang hijau.
 
