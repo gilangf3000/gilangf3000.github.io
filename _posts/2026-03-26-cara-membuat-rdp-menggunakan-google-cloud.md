@@ -3,115 +3,78 @@ layout: post
 title: "cara paling gampang bikin rdp google cloud (trial $300) gratis!"
 date: 2026-03-26
 emoji: 🖥️
-keywords: [google cloud, gcp, rdp, vps, windows, ubuntu, tutorial, linux, server, optimasi, rdp gratis, vps murah, gcp rdp, remote desktop google, cara membuat rdp]
+keywords: [google cloud, gcp, rdp, vps, windows, ubuntu, tutorial, linux, server, rdp gratis, vps murah, gcp rdp, remote desktop google, cara membuat rdp]
 image: /assets/img/rdp-gcp-ok.png
 ---
 
-*pengen punya rdp kenceng yang nyala 24 jam nonstop buat botting, trading, atau sekadar bypass internet lemot? google cloud platform (gcp) adalah pilihan terbaik dengan infrastruktur data center global yang super stabil. di artikel "masterclass" ini, kita nggak cuma bahas cara bikinnya, tapi juga trik optimasi biar rdp kamu makin enteng dan efisien. kita bahas dua metode: windows server vps dan ubuntu docker desktop.*
+Lagi butuh RDP kenceng buat jalanin bot atau sekadar browsing anti-lemot? Nah, pas banget. Google Cloud Platform (GCP) itu juaranya kalau soal RDP gratisan yang stabil. Lewat program trial-nya, kita dikasih saldo **$300** buat bebas ngulik server spek dewa selama 3 bulanan. 
+
+Gak usah pusing sama settingan ribet, di sini saya share dua cara paling ampuh: pake Windows Server (yang ada GUI-nya) atau pake trik Ubuntu Desktop lewat Cloud Shell yang praktis banget.
 
 ![preview rdp gcp](/assets/img/rdp-gcp-ok.png)
 
 ---
 
-## pengenalan: kenapa google cloud?
+## Opsi A: Windows RDP "Spek Dewa" (Pake VM Instance)
 
-google cloud punya keunggulan di sisi **latency** (kecepatan respon) dan **uptime**. dengan program trial-nya ($300 credit), kamu bisa punya rdp spesifikasi tinggi secara gratis selama kurang lebih 3 bulan. ini sangat menguntungkan bagi developer atau peternak bot yang butuh banyak environment kerja.
+Kalau kamu tipe yang butuh Windows beneran buat install software `.exe` atau trading, cara ini yang paling rekomendasi. Tapi inget, Windows itu makan RAM, jadi jangan pelit spek ya.
 
-**perbandingan metode:**
-- **windows server (vm instance)**: akses gui murni, support semua aplikasi .exe, tapi makan resource lebih gede.
-- **ubuntu docker (cloud shell)**: gratis selamanya (free tier), setup hitungan detik, enteng, tapi aksesnya via browser.
+### 1. Masuk ke Google Console
+Pertama, buka dulu [Google Cloud Console](https://console.cloud.google.com/). Kalau udah login, langsung aja cari menu **Compute Engine > VM Instances**, terus klik **Create Instance**.
 
----
+### 2. Setting Spek Mesin (Jangan Salah Pilih!)
+Nah, ini kuncinya. Biar RDP kamu nggak 'ngelag', jangan pilih yang spek paling bawah.
+- **Machine Type**: Pilih minimal `e2-medium` (2 vCPU, 4GB RAM). Kalau dipaksa pake `e2-micro`, dijamin bakal emosi sendiri pas ngeremote nanti.
+- **Region**: Pilih yang paling deket, saran saya sih `asia-southeast2` (Jakarta) biar ping-nya kecil.
 
-## opsi a: setup windows rdp spek sultan (vm instance)
+### 3. Ganti OS ke Windows
+Scroll ke bawah dikit, cari bagian **Boot Disk** terus klik **Change**.
+- Ganti Operating System jadi **Windows Server**.
+- Versinya bebas, tapi saya biasanya pake **Windows Server 2022 Datacenter**.
+- Ukuran disk kasih aja **50GB**. Kalau bisa pilih yang **SSD** biar pas buka aplikasi makin sat-set.
 
-metode ini memberikan kamu kontrol penuh 100% atas sistem operasi windows. kamu bisa install software apapun layaknya di laptop sendiri.
+### 4. Aktivasi Firewall
+Di bagian Firewall, centang aja **Allow HTTP** sama **Allow HTTPS**. Kalau udah, klik **Create** dan tunggu sampe mesinnya dapet centang hijau.
 
-### 1. akses google cloud console
-buka [Google Cloud Console](https://console.cloud.google.com/) dan pastikan project kamu sudah aktif. jika belum punya project, buat satu dengan nama `rdp-premium-project`.
+### 5. Ambil Password RDP
+Nah, kalau udah nyala, klik tanda panah di samping tombol RDP, terus pilih **Set Windows Password**.
+- Masukin username bebas (misal: `admin`).
+- Nanti bakal muncul password random. **Wajib copy dan simpan ya!** Karena kalau udah ditutup, Google nggak bakal ngasih liat lagi.
 
-### 2. konfigurasi spesifikasi mesin
-- buka sidebar kiri, masuk ke **Compute Engine > VM Instances**.
-- klik **Create Instance**.
-- **Region**: Pilih yang paling dekat dengan lokasi targetmu. kalau buat browsing Indo, pilih `asia-southeast2` (Jakarta). kalau buat bot luar, pilih `us-central1` (Iowa).
-- **Machine Configuration**: Untuk Windows, hukumnya wajib pake minimal `e2-medium` (2 vCPU, 4GB RAM). pake `e2-micro` cuma bakal bikin kamu emosi karena lemotnya GUI Windows.
-
-### 3. pemilihan operating system (boot disk)
-ini bagian yang sering salah. scroll ke bawah cari bagian **Boot Disk**, klik **Change**.
-- **Operating System**: Ganti ke **Windows Server**.
-- **Version**: Pilih **Windows Server 2022 Datacenter Desktop Experience**. kata "Desktop Experience" itu penting karena kalau cuma "Datacenter", tampilannya cuma terminal hitam tanpa GUI.
-- **Disk Type**: Pilih **SSD Persistent Disk** (setidaknya 50GB) biar bootingnya secepat kilat.
-
-### 4. firewall & networking
-- centang **Allow HTTP traffic** dan **Allow HTTPS traffic**.
-- (Opsional) Klik **Advanced Options > Networking**, di bawah **Networking Interface**, pastikan IP External-nya diset ke `Reserved` kalau kamu butuh IP yang nggak berubah-ubah (Static).
-
-### 5. deploy & pembuatan password
-klik **Create**. tunggu 1-2 menit sampai status instance centang hijau. 
-- klik tanda panah di sebelah tulisan **RDP**, pilih **Set Windows Password**.
-- buat Username baru (misal: `adminawan`).
-- catat password yang muncul. **SANGAT PENTING**: Google cuma kasih liat password ini satu kali. jangan sampe ilang!
-
-### 6. optimasi pasca instalasi (wajib!)
-setelah login rdp via Remote Desktitle: "bikin tampilan ssh vps jadi keren pake custom welcome banner (motd)"
-ingan:
-- **disable animations**: buka `sysdm.cpl` > Advanced > Performance Settings > pilih "Adjust for best performance".
-- **server manager**: matikan "IE Enhanced Security Configuration" agar kamu bisa download browser (Chrome/Edge) tanpa direcoki security popup tiap detik.
-- **update drivers**: biarkan windows melakukan update driver cloud-nya sebentar agar performa grafis lebih stabil.
+### 6. Login & Beres!
+Sekarang tinggal buka **Remote Desktop Connection** di PC kamu, masukin IP External-nya, masukin username & password tadi. Selamat, RDP Sultan-mu sudah aktif!
 
 ---
 
-## opsi b: rdp ubuntu kilat & gratis (docker method)
+## Opsi B: RDP Ubuntu Kilat (Cloud Shell & Docker)
 
-ini solusinya buat yang males setup kartu kredit atau cuma butuh browsing cepat via browser. kita pake platform docker yang jalan di atas cloud shell.
+Kalau kamu cuma butuh browsing cepat atau download file gede tanpa mau ribet daftar kartu kredit/trial, trik ini solusinya. Kita pake Docker buat jalanin desktop Ubuntu di dalem browser.
 
-### 1. jalankan google cloud shell
-klik logo **Shell** (`>_`) di pojok kanan atas dashboard google.
+### 1. Buka Cloud Shell
+Klik icon shell `( >_ )` di pojok kanan atas dashboard GCP. Tunggu sampe terminalnya kebuka.
 
-![icon shell dashboard](/assets/img/rdp-gcp-shell-btn.png)
-
-### 2. eksekusi perintah container
-copy paste perintah di bawah ini ke terminal shell:
+### 2. Copy Paste Perintah Ini
+Langsung aja hajar perintah ini di terminal:
 ```bash
 docker run -p 6070:80 dorowu/ubuntu-desktop-lxde-vnc
 ```
-perintah ini bakal otomatis men-download lingkungan desktop ubuntu lengkap dengan sistem remote VNC yang sudah di-bundle ke dalam web. proses ini sangat efisien karena resource cpu/ram yang dipake adalah resource dari google cloud shell itu sendiri (gratiss!).
+Tungguin bentar sampe filenya selesai didownload semua. Kalau udah muncul tulisan running, lanjut ke langkah terakhir.
 
 ![proses docker running](/assets/img/rdp-gcp-docker.png)
 
-### 3. akses via web preview
-tunggu sampai log di terminal berhenti dan nunjukin kalau port 80 sudah aktif.
-- klik logo **Web Preview** (icon monitor kecil).
-- pilih **Change Port**.
-- masukkan port **6070**, lalu klik **Change and Preview**.
+### 3. Intip Hasilnya
+Klik icon **Web Preview** (yang gambarnya monitor kecil), terus pilih **Change Port**. Masukin angka **6070**, terus klik **Change and Preview**.
 
-![konfigurasi port rdp](/assets/img/rdp-gcp-web-preview.png)
-
-### 4. login ke desktop ubuntu
-halaman baru akan terbuka di browsermu dan menampilkan desktop ubuntu lengkap dengan taskbar dan start menu. kamu bisa buka browser di dalem sana buat download file atau browsing dengan speed internet datacenter google yang mencapai 1Gbps+.
+Ajaib! Browser kamu bakal buka tab baru yang isinya tampilan Desktop Ubuntu. Tinggal buka browser di dalem sana dan nikmatin speed internet khas Google Cloud.
 
 ---
 
-## tips keamanan (security audit)
-
-jangan sembarangan pake rdp di cloud! ikuti checklist ini biar vps kamu gak digondol hacker:
-1. **change default port**: secara default RDP pake port 3389. kalau bisa, ubah lewat registry biar gak gampang di-bruteforce.
-2. **firewall rules**: di dashboard GCP, batasi akses port RDP cuma dari IP publik rumahan kamu saja.
-3. **password kuat**: jangan pake password `12345` atau sejenisnya. pake kombinasi simbol dan angka.
-
----
-
-## faq (pertanyaan umum)
-
-**t: rdp saya kok sering putus sendiri?**
-j: cek stabilitas internet lokal kamu atau naikkan spesifikasi cpu vm-nya. seringkali cpu `e2-micro` mengalami "throttling" karena overload jalanin gui windows.
-
-**t: bisa nggak rdp ini buat mining cryptoo?**
-j: **JANGAN**. google cloud sangat ketat soal mining. akun kamu bakal langsung di-suspend permanen kalau ketahuan mining tanpa izin khusus.
-
-**t: gimana cara perpanjang masa trial-nya?**
-j: setelah $300 abis, kamu harus bayar sesuai penggunaan. triknya adalah selalu matikan (Stop) vm saat tidak dipakai agar kredit tidak terpotong terus-menerus.
+## Tips Biar RDP Makin Ngacir
+Biar makin enteng, pas sudah masuk Windows nanti:
+- Klik kanan `This PC` > Properties > Advanced System Settings > Performance.
+- Pilih yang **Adjust for best performance**. 
+Langkah ini bakal matiin animasi-animasi Windows yang nggak guna, jadi RDP kamu kerasa jauh lebih responsif biarpun internet kamu lagi pas-pasan.
 
 ---
 
-*p.s. vps kenceng mulai 15rb-an? cek aja di [awancore.biz.id](https://awancore.biz.id/) - tempatnya para sysadmin ngumpul!*
+*P.S. Butuh VPS kenceng tanpa ribet daftar GCP? Cek aja di [awancore.biz.id](https://awancore.biz.id/) ya! Mulai 15rb-an aja, tapi cuma VPS bukan RDP.*

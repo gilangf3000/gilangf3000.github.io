@@ -7,109 +7,64 @@ keywords: [cloudflare, tunnel, vps, security, tutorial, linux, zero trust, cloud
 image: /assets/img/tunnel.png
 ---
 
-*pernah denger istilah "server tanpa ip publik"? atau bingung cara online-kan website dari vps yang ada di balik network kantor yang ketat? cloudflare tunnel (sebelumnya argo tunnel) adalah jawaban "sultan" untuk masalah ini. di panduan tingkat tinggi (guru-guide) ini, kita bakal kupas tuntas cara setup tunnel yang nggak cuma jalan, tapi juga aman dengan standar zero trust security.*
+Pernah kepikiran nggak, pengen online-kan website dari VPS tapi males ribet setting IP publik atau takut kena DDoS? Atau mungkin kamu pake provider internet yang IP-nya nggak bisa diakses dari luar (kena NAT)? Tenang, Cloudflare Tunnel (cloudflared) itu solusinya.
+
+Dulu kita kudu buka port di firewall server, yang mana itu bahaya banget karena hacker bisa langsung nge-scan IP asli kita. Nah, kalo pake Tunnel ini, server kita jadi "tersembunyi". Koneksinya cuma satu arah (outbound) ke Cloudflare, jadi aman banget dari serangan direct-to-ip.
 
 ![preview](/assets/img/tunnel.png)
 
-### pendahuluan: kenapa hacker benci cloudflare tunnel?
+---
 
-di sistem konvensional, kamu harus buka port 80/443 di firewall vps dan membiarkan ip publik kamu terekspos. hacker bisa dengan mudah melakukan scanning ip dan menyerang server kamu langsung. dengan **cloudflare tunnel**, server kamu **tidak butuh port terbuka sama sekali**. server kamu hanya melakukan koneksi *outbound* ke cloudflare, dan cloudflare yang akan mengirimkan trafik ke server kamu lewat jalur terenkripsi.
+## Kenapa Kamu Bakal Suka Cloudflare Tunnel?
+
+Gini lho, sebenernya ada banyak alasan kenapa tech stack ini sekarang jadi favorit sysadmin:
+1. **Gak Perlu Buka Port**: Firewall server bisa kamu tutup rapet-rapet. Gak perlu buka port 80 atau 443 lagi.
+2. **Bypass Internet ISP**: Buat kamu yang pake Indihome, Starlink, atau VPS yang nggak dapet IP publik statis, website kamu tetep bisa diakses dunia lewat domain.
+3. **Gratis SSL**: Gak usah pusing install Certbot atau Letsencrypt lagi, Cloudflare yang ngurusin sertifikatnya secara otomatis.
+4. **Keamanan Ekstra**: Karena IP asli server kamu nggak ketauan, serangan DDoS bakal mental di pintu depan Cloudflare.
 
 ---
 
-## keunggulan menggunakan argo tunnel (cloudflared)
+## Cara Pasangnya (Gampang Banget!)
 
-sebelum masuk ke langkah teknis, mari kita bedah kenapa para ahli keamanan memilih ini:
-1. **zero attack surface**: tidak ada ip publik yang bisa diping atau discan oleh botnet.
-2. **bypass firewall/nat**: bisa jalan di vps nat (seperti vps liteserver atau provider lokal) bahkan di laptop rumah.
-3. **automatic ssl**: kamu dapet sertifikat ssl premium dari cloudflare tanpa perlu install certbot/letsencrypt di server sendiri.
-4. **identity-aware proxy**: kamu bisa tambahkan login email sebelum orang bisa akses website kamu (via zero trust access).
+Kita bakal pake metode **Tunnel Token** yang baru. Jauh lebih praktis daripada cara lama yang ribet.
 
----
-
-## langkah 1: instalasi cloudflared (the binary)
-
-kita butuh aplikasi kecil bernama `cloudflared` yang berfungsi sebagai "jembatan" antara vps kamu dan jaringan google-nya cloudflare.
-
+### 1. Install 'cloudflared' di Server
+Pertama-tama, kita dapetkan dulu aplikasinya. Jalanin aja perintah ini di terminal VPS kamu:
 ```bash
-# download binary versi linux amd64 terbaru
 wget https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
-
-# install menggunakan dpkg
 sudo dpkg -i cloudflared-linux-amd64.deb
 ```
-pastikan instalasi sukses dengan mengetik `cloudflared --version`. kalau muncul versi aplikasinya, berarti aman.
 
----
+### 2. Ambil Kunci (Token) dari Dashboard
+Sekarang, buka browser kamu dan login ke [Cloudflare Zero Trust](https://one.dash.cloudflare.com/). 
+- Cari menu **Networks > Tunnels**, terus klik **Create a Tunnel**.
+- Kasih nama bebas (misal: `tunnel-vps-ku`).
+- Di bagian instalasi, pilih **Linux (64-bit)**. Nanti bakal muncul perintah panjang berisi **TOKEN**.
+- Copy aja bagian token-nya (kode random yang panjang itu).
 
-## langkah 2: pembuatan tunnel (the dashboard way)
-
-ada dua cara: via cli atau dashboard. saya sangat menyarankan via dashboard (zero trust dashboard) karena lebih gampang dimonitor.
-
-1. login ke [Cloudflare Zero Trust](https://one.dash.cloudflare.com/).
-2. klik menu **Networks > Tunnels**.
-3. pilih **Create a Tunnel** dan kasih nama (misal: `vps-utama-tunnel`).
-4. pilih **Cloudflared** sebagai environment.
-5. copy **TOKEN** unik yang muncul di dashboard. token ini adalah "kunci" yang menghubungkan vps kamu ke tunnel tersebut.
-
----
-
-## langkah 3: konfigurasi as a service
-
-agar tunnel kamu nggak mati saat terminal ditutup atau saat vps reboot, kita harus pasang sebagai systemd service.
-
+### 3. Aktifkan Service-nya
+Balik lagi ke terminal VPS, kita pasang token tadi biar tunnelnya jalan terus biarpun VPS di-reboot. 
 ```bash
-# ganti <TOKEN> dengan token asli dari dashboard tadi
-sudo cloudflared service install <TOKEN-ANDA>
-
-# jalankan service
-sudo systemctl start cloudflared
-sudo systemctl enable cloudflared
+sudo cloudflared service install <PASTE-TOKEN-KAMU-DI-SINI>
 ```
-cek statusnya di dashboard cloudflare. kalau indikatornya sudah **Healthy (Hijau)**, selamat! jembatan kamu sudah terbangun.
+Nanti kalo udah berhasil, status di dashboard Cloudflare bakal berubah jadi **Healthy (Ijo)**. Beres dehh!
 
-![status tunnel healthy](/assets/img/healthy.png)
-
----
-
-## langkah 4: routing domain (the final touch)
-
-sekarang jembatannya sudah ada, tapi cloudflare belum tau trafik ke domain mana yang harus dikirim ke tunnel ini.
-- di dashboard tunnel, klik tab **Public Hostname**.
-- klik **Add a public hostname**.
-- **subdomain**: misal `web`.
-- **domain**: pilih domain kamu (misal `gilang.com`).
-- **service type**: pilih `HTTP`.
-- **url**: masukkan `localhost:80` (jika aplikasi web kamu jalan di port 80).
-
-![konfigurasi hostname](/assets/img/tunnel-dash.png)
+### 4. Setting Alamat Domain
+Nah, langkah terakhir biar orang bisa buka lewat domain: 
+- Di dashboard Cloudflare Tunnel tadi, klik tab **Public Hostname**.
+- Masukin subdomain yang kamu mau (misal: `web.domainku.com`).
+- Di bagian **Service**, pilih `HTTP` dan arahkan ke `http://localhost:80` (kalo web server kamu jalan di port 80).
+- Klik **Save**. Tunggu 1 menit, dan website kamu sudah online lewat jalur aman!
 
 ---
 
-## level expert: multi-app & security hardening
+## Tips Expert: Tambah Banyak App Sekaligus
+Satu tunnel itu muat banyak lho. Kamu tinggal tambah aja **Public Hostname** baru buat aplikasi lain. Misal `panel.domainku.com` tembak ke port `8888`. Semuanya bakal lewat satu jalur tunnel yang sama. Jadi hemat dan rapi kan?
 
-jangan cuma satu website! satu tunnel bisa dipakai buat banyak subdomain sekaligus.
-
-### routing ke banyak port
-kamu bisa tambahkan hostname lagi:
-- `api.gilang.com` -> `localhost:3000`
-- `panel.gilang.com` -> `localhost:8888`
-
-### proteksi tambahan (cloudflare access)
-kamu bisa setting agar website kamu cuma bisa diakses oleh email kamu saja. masuk ke **Access > Applications** di dashboard zero trust. tambahkan domain web kamu, lalu buat policy "Allow" untuk email pribadi kamu. sekarang tiap orang yang buka web kamu bakal dimintain kode OTP yang dikirim ke email. **Hacker beneran nangis liat ini.**
+Kalo ada masalah atau tunnelnya nggak konek, tinggal intip aja log-nya pake perintah:
+`sudo journalctl -u cloudflared -f`
 
 ---
 
-## monitoring & troubleshooting
-
-sebagai sysadmin, kamu wajib tau cara liat log jika tunnel bermasalah:
-```bash
-# liat log real-time
-sudo journalctl -u cloudflared -f
-```
-**masalah umum:**
-- **quic error**: terkadang terjadi karena firewall isp blokir protokol udp/quic. solusinya paksa tunnel pake protokol h2 (tambahkan flag `--protocol http2`).
-
----
-
-*p.s. vps kenceng buat test tunnel? cek [awancore.biz.id](https://awancore.biz.id/) - harga miring spek nendang!*
+*P.S. Butuh VPS kenceng buat eksperimen tunnel? Cek aja di [awancore.biz.id](https://awancore.biz.id/) - mulai 15rb-an aja, harga miring spek nendang!*
