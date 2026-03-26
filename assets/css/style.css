@@ -38,7 +38,7 @@ body::-webkit-scrollbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  min-height: 50px;
+  min-height: 45px;
 }
 
 header.site-header {
@@ -95,7 +95,7 @@ header.site-header {
   font-size: 15px;
   outline: none;
   width: 200px;
-  padding: 8px 0;
+  padding: 5px 0;
 }
 
 @media (max-width: 600px) {
@@ -163,7 +163,7 @@ a:hover {
 
 .post-title {
   margin: 0;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 700;
 }
 
@@ -251,7 +251,7 @@ img {
 }
 
 footer {
-  margin-top: 15px;
+  margin-top: 20px;
   padding: 10px 0;
   border-top: 1px solid #f1f1f1;
   font-size: 13px;

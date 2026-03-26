@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "masterclass: cara membuat rdp google cloud premium & optimasi 2026"
+title: "cara paling gampang bikin rdp google cloud (trial $300) gratis!"
 date: 2026-03-26
 emoji: 🖥️
 keywords: [google cloud, gcp, rdp, vps, windows, ubuntu, tutorial, linux, server, optimasi, rdp gratis, vps murah, gcp rdp, remote desktop google, cara membuat rdp]
@@ -13,9 +13,7 @@ image: /assets/img/rdp-gcp-ok.png
 
 ---
 
-## pengenalan: kenapa google cloud?
-
-google cloud punya keunggulan di sisi **latency** (kecepatan respon) dan **uptime**. dengan program triallnya ($300 credit), kamu bisa punya rdp spesifikasi tinggi secara gratis selama kurang lebih 3 bulan. ini sangat menguntungkan bagi developer atau peternak bot yang butuh banyak environment kerja.
+## pengenalan: kenapa googency** (kecepatan respon) dan **uptime**. dengan program triallnya ($300 credit), kamu bisa punya rdp spesifikasi tinggi secara gratis selama kurang lebih 3 bulan. ini sangat menguntungkan bagi developer atau peternak bot yang butuh banyak environment kerja.
 
 **perbandingan metode:**
 - **windows server (vm instance)**: akses gui murni, support semua aplikasi .exe, tapi makan resource lebih gede.
@@ -53,7 +51,8 @@ klik **Create**. tunggu 1-2 menit sampai status instance centang hijau.
 - catat password yang muncul. **SANGAT PENTING**: Google cuma kasih liat password ini satu kali. jangan sampe ilang!
 
 ### 6. optimasi pasca instalasi (wajib!)
-setelah login rdp via Remote Desktop Connection di laptopmu, lakukan ini biar rdp makin ringan:
+setelah login rdp via Remote Desktitle: "bikin tampilan ssh vps jadi keren pake custom welcome banner (motd)"
+ingan:
 - **disable animations**: buka `sysdm.cpl` > Advanced > Performance Settings > pilih "Adjust for best performance".
 - **server manager**: matikan "IE Enhanced Security Configuration" agar kamu bisa download browser (Chrome/Edge) tanpa direcoki security popup tiap detik.
 - **update drivers**: biarkan windows melakukan update driver cloud-nya sebentar agar performa grafis lebih stabil.
@@ -113,4 +112,4 @@ j: setelah $300 abis, kamu harus bayar sesuai penggunaan. triknya adalah selalu 
 
 ---
 
-*p.s. butuh vps murah dan kenceng tanpa ribet daftar gcp? cek aja di [awancore.biz.id](https://awancore.biz.id/) ya! cuma vps gak ada rdp.*
+*p.s. vps kenceng mulai 15rb-an? cek aja di [awancore.biz.id](https://awancore.biz.id/) - tempatnya para sysadmin ngumpul!*

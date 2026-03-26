@@ -137,4 +137,4 @@ J: Nggak, ini khusus buat server Linux (Ubuntu/Debian/CentOS). Kalau vps kamu Wi
 
 ![status banner ok](/assets/img/service-ok.png)
 
-*p.s. vps kenceng mulai 20rb-an? cek aja di [awancore.biz.id](https://awancore.biz.id/) - tempatnya para sysadmin ngumpul!*
+*p.s. vps kenceng mulai 15rb-an? cek aja di [awancore.biz.id](https://awancore.biz.id/) - tempatnya para sysadmin ngumpul!*
