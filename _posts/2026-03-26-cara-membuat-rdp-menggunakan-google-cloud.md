@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "cara paling gampang bikin rdp google cloud (trial $300) gratis!"
+title: "Cara Paling Gampang Bikin RDP Google Cloud (Trial $300) Gratis!"
 date: 2026-03-26
 emoji: 🖥️
 keywords: [google cloud, gcp, rdp, vps, windows, ubuntu, tutorial, linux, server, rdp gratis, vps murah, gcp rdp, remote desktop google, cara membuat rdp]
