@@ -182,6 +182,39 @@ a:hover {
   margin-top: 8px;
 }
 
+.post-thumbnail {
+  margin-top: 15px;
+  margin-bottom: 12px;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #f8f9fa;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.post-thumbnail img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.post-thumbnail:hover img {
+  transform: scale(1.03);
+}
+
+.post-hero {
+  margin-bottom: 25px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.post-hero img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
 /* Simple Code Box (Kek Biasa) */
 div.highlight {
   margin: 20px 0;

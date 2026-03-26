@@ -30,6 +30,9 @@ Gini lho, sebenernya ada banyak alasan kenapa tech stack ini sekarang jadi favor
 Kita bakal pake metode **Tunnel Token** yang baru. Jauh lebih praktis daripada cara lama yang ribet.
 
 ### 1. Install 'cloudflared' di Server
+
+![preview](/assets/img/install.png)
+
 Pertama-tama, kita dapetkan dulu aplikasinya. Jalanin aja perintah ini di terminal VPS kamu:
 ```bash
 wget https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
@@ -38,8 +41,12 @@ sudo dpkg -i cloudflared-linux-amd64.deb
 
 ### 2. Ambil Kunci (Token) dari Dashboard
 Sekarang, buka browser kamu dan login ke [Cloudflare Zero Trust](https://one.dash.cloudflare.com/). 
+![pilih sistem operasi](/assets/img/tunnel-dash.png)
 - Cari menu **Networks > Tunnels**, terus klik **Create a Tunnel**.
 - Kasih nama bebas (misal: `tunnel-vps-ku`).
+
+![preview](/assets/img/cf-token.png)
+
 - Di bagian instalasi, pilih **Linux (64-bit)**. Nanti bakal muncul perintah panjang berisi **TOKEN**.
 - Copy aja bagian token-nya (kode random yang panjang itu).
 
@@ -49,6 +56,8 @@ Balik lagi ke terminal VPS, kita pasang token tadi biar tunnelnya jalan terus bi
 sudo cloudflared service install <PASTE-TOKEN-KAMU-DI-SINI>
 ```
 Nanti kalo udah berhasil, status di dashboard Cloudflare bakal berubah jadi **Healthy (Ijo)**. Beres dehh!
+
+![preview](/assets/img/healthy.png)
 
 ### 4. Setting Alamat Domain
 Nah, langkah terakhir biar orang bisa buka lewat domain: 
