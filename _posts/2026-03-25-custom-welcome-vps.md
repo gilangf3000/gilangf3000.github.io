@@ -1,13 +1,13 @@
 ---
 layout: post
-title: "expert-guide: custom welcome banner ssh linux (motd) biar vps makin pro"
+title: "bikin tampilan ssh vps jadi keren pake custom welcome banner (motd)"
 date: 2026-03-25
 emoji: 🖥️
 keywords: [vps, linux, banner, terminal, tutorial, server, bash script, motd, custom welcome ssh, tampilan vps keren, sysadmin tips]
 image: /assets/img/welcome.png
 ---
 
-*bosen liat terminal yang sepi pas login vps? atau pengen tau status ram, cpu, dan uptime tanpa perlu ngetik perintah manual tiap saat? di panduan 'expert-guide' ini, kita bakal bikin custom welcome banner (MOTD) yang nggak cuma keren secara visual dengan warna-warni ANSI, tapi juga fungsional nampilin data live dari jeroan server kamu.*
+*bosen liat terminal yang sepi pas login vps? yuk, bikin custom welcome banner (MOTD) biar VPS kamu keliatan lebih keren dan informatif pas login. panduan ini bakal bantu kamu pasang script pemantau RAM, CPU, dan uptime yang simpel tapi fungsional.*
 
 ![preview](/assets/img/welcome.png)
 
@@ -41,56 +41,42 @@ copy script di bawah ini. saya sudah tambahkan kode warna ANSI yang "soft" di ma
 ```bash
 #!/bin/bash
 
-# --- KONFIGURASI WARNA (ANSI) ---
-BOLD="\033[1m"
-BLUE="\033[1;34m"
-CYAN="\033[1;36m"
-GREEN="\033[1;32m"
-WHITE="\033[1;37m"
-GRAY="\033[0;37m"
-RED="\033[1;31m"
+# warna
+C1="\033[1;38;5;51m"
+C2="\033[1;38;5;45m"
+C3="\033[1;38;5;39m"
+TXT="\033[1;37m"
+DIM="\033[0;37m"
 NC="\033[0m"
 
-# --- AMBIL DATA SISTEM ---
+center() {
+  printf "%*s\n" $(((${#1} + $(tput cols)) / 2)) "$1"
+}
+
+HOST=$(hostname)
 USER=$(whoami)
-HOSTNAME=$(hostname)
 IP=$(hostname -I | awk '{print $1}')
-OS=$(grep -oP '(?<=^PRETTY_NAME=").*(?=")' /etc/os-release)
-KERNEL=$(uname -r)
-UPTIME=$(uptime -p | sed 's/up //')
-DATE=$(date +"%A, %d %B %Y, %T")
+UP=$(uptime -p | sed 's/up //')
+TIME=$(date '+%Y-%m-%d %H:%M:%S')
 
-# --- HITUNG RESOURCE ---
-# RAM Usage
-RAM_TOTAL=$(free -m | awk '/Mem:/ { print $2 }')
-RAM_USED=$(free -m | awk '/Mem:/ { print $3 }')
-RAM_PERC=$((RAM_USED * 100 / RAM_TOTAL))
+CPU=$(grep -m1 "model name" /proc/cpuinfo | cut -d: -f2 | xargs)
+CORE=$(nproc)
+RAM=$(free -m | awk '/Mem:/ {printf "%dMB / %dMB", $3, $2}')
+DISK=$(df -h / | awk 'NR==2 {print $3 " / " $2}')
 
-# DISK Usage
-DISK_PERC=$(df -h / | awk 'NR==2 {print $5}' | sed 's/%//')
-CPU_LOAD=$(top -bn1 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print 100 - $1}')
-
-# --- TAMPILAN BANNER ---
 clear
-echo -e "${BLUE}================================================================${NC}"
-echo -e "  ${BOLD}${WHITE}Gilang's SSH Console${NC} ${GRAY}- Authorized Access Only${NC}"
-echo -e "${BLUE}================================================================${NC}"
-echo -e "  ${CYAN}Sistem Info:${NC}"
-echo -e "  ${GRAY}Distro :${NC} ${WHITE}$OS${NC}"
-echo -e "  ${GRAY}Kernel :${NC} ${WHITE}$KERNEL${NC}"
-echo -e "  ${GRAY}Uptime :${NC} ${GREEN}$UPTIME${NC}"
-echo -e ""
-echo -e "  ${CYAN}Resource Status:${NC}"
-echo -e "  ${GRAY}CPU Load :${NC} ${WHITE}${CPU_LOAD}%${NC}"
-echo -e "  ${GRAY}RAM Used :${NC} ${WHITE}${RAM_USED}MB / ${RAM_TOTAL}MB (${RAM_PERC}%)${NC}"
-echo -e "  ${GRAY}Disk (/) :${NC} ${WHITE}${DISK_PERC}% Used${NC}"
 echo ""
-echo -e "  ${CYAN}Network Identity:${NC}"
-echo -e "  ${GRAY}Logged as:${NC} ${GREEN}${USER}${NC}${GRAY} @ ${NC}${WHITE}${HOSTNAME}${NC}"
-echo -e "  ${GRAY}Local IP :${NC} ${WHITE}${IP}${NC}"
-echo -e "  ${GRAY}Date     :${NC} ${WHITE}${DATE}${NC}"
-echo -e "${BLUE}================================================================${NC}"
-echo -e "  ${GRAY}Pro-Tip: Gunakan 'sudo htop' untuk monitoring lebih detail.${NC}"
+echo -e "${C1}$(center "AwanCore")${NC}"
+echo ""
+
+echo -e "${DIM}System  ${NC}: ${TXT}$HOST${NC} ${DIM}(${USER})${NC}"
+echo -e "${DIM}Time    ${NC}: ${C2}$TIME${NC}"
+echo -e "${DIM}Uptime  ${NC}: ${C3}$UP${NC}"
+echo -e "${DIM}IP      ${NC}: ${TXT}$IP${NC}"
+
+echo -e "${DIM}CPU     ${NC}: ${C2}$CPU${NC} ${DIM}(${CORE} core)${NC}"
+echo -e "${DIM}RAM     ${NC}: ${C3}$RAM${NC}"
+echo -e "${DIM}Disk    ${NC}: ${TXT}$DISK${NC}"
 echo ""
 ```
 
