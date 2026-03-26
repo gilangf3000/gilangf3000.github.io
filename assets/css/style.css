@@ -149,7 +149,7 @@ div.highlight {
   background: #f7f7f7;
   border: 1px solid #eeeeee;
   border-radius: 4px;
-  position: relative; /* Now the anchor for absolute button */
+  position: relative !important; /* Force for button anchor */
   overflow: hidden;
 }
 
@@ -160,6 +160,8 @@ pre {
   overflow-x: auto;
   display: block;
   background: transparent;
+  position: relative;
+  z-index: 1;
 }
 
 /* Hide scrollbars on pre */
@@ -176,25 +178,27 @@ pre {
 }
 
 .copy-btn {
-  position: absolute; /* Fixed relative to .highlight */
-  top: 10px;
-  right: 10px;
-  background: #fff;
-  border: 1px solid #ddd;
+  position: absolute !important;
+  top: 8px !important;
+  right: 8px !important;
+  background: #ffffff;
+  border: 1px solid #dddddd;
   border-radius: 4px;
-  color: #999;
-  padding: 6px 12px;
+  color: #888;
+  padding: 5px 10px;
   cursor: pointer;
-  opacity: 0;
-  transition: opacity 0.2s, background 0.2s;
-  font-size: 13px;
-  z-index: 100;
+  opacity: 0.8; /* Stay visible but subtle */
+  transition: opacity 0.2s, background 0.2s, color 0.2s;
+  font-size: 12px;
+  z-index: 100 !important;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
 }
 
 .copy-btn:hover {
-  background: #f3f4f6;
+  background: #f8f9fa;
   color: #1e6bb8;
   border-color: #1e6bb8;
+  opacity: 1;
 }
 
 code {
@@ -218,19 +222,28 @@ footer {
   text-align: center;
 }
 
-/* Anti-Scrape Styling */
-#post-secure-view {
-  opacity: 0;
-  transition: opacity 0.5s ease-in-out;
-}
-
-.loading-placeholder {
+/* Lightbox Premium Blur Overlay */
+.lightbox-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  padding: 50px 0;
-  color: #999;
-  font-size: 14px;
-  font-style: italic;
+  z-index: 10000;
+  cursor: zoom-out;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.lightbox-img {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 8px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.1);
 }

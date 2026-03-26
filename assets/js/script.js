@@ -83,25 +83,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
   }
 
-  // Targeted Adblock Detection via Monetag Domain
-  async function checkAdBlock() {
-    const monetagUrl = 'https://quge5.com/88/tag.min.js';
-    try {
-      await fetch(new Request(monetagUrl, { method: 'HEAD', mode: 'no-cors' }));
-      return false; // Monetag OK
-    } catch (e) {
-      return true; // Monetag Blocked (likely by DNS or aggressive adblock)
-    }
-  }
-
-  checkAdBlock().then(isBlocked => {
-    if (isBlocked) {
-      const notice = document.createElement('div');
-      notice.id = 'adblock-notice';
-      notice.innerHTML = '<div style="background:#fff3cd; color:#856404; padding:10px; font-size:13px; text-align:center; border-bottom:1px solid #ffeeba; position:relative; z-index:9999;">Adblocker terdeteksi. Mohon nonaktifkan untuk mendukung blog ini. Terima kasih! 🙏</div>';
-      document.body.prepend(notice);
-    }
-  });
+  // Targeted Adblock Detection (Disabled as requested)
+  // [Detection logic removed]
 
   // Direct Link Monetization Logic
   const directAdLinks = [
@@ -121,61 +104,50 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const isExcluded = url.hostname.includes('awancore.biz.id');
 
     if (isExternal && !isExcluded) {
-      // Pick a random ad link
       const randomAd = directAdLinks[Math.floor(Math.random() * directAdLinks.length)];
-      // Open ad in new tab
       window.open(randomAd, '_blank');
-      // Navigation continues in original tab as normal
     }
   });
 
-  // Dynamic Content Rendering (Anti-Scrape)
-  const secureData = document.getElementById('post-secure-data');
-  const secureView = document.getElementById('post-secure-view');
-  
-  if (secureData && secureView) {
-    setTimeout(() => {
-      secureView.innerHTML = secureData.innerHTML;
-      secureView.style.opacity = '1';
-      secureData.remove();
-
-      // Re-init copy buttons for dynamically rendered code blocks
-      secureView.querySelectorAll('pre').forEach((block) => {
-        if (block.querySelector('code') && !block.parentNode.querySelector('.copy-btn')) {
-          const button = document.createElement('button');
-          button.className = 'copy-btn';
-          button.innerHTML = '<i class="fa-regular fa-copy"></i>';
-          block.parentNode.insertBefore(button, block);
-          
-          button.addEventListener('click', () => {
-            const code = block.querySelector('code').innerText;
-            navigator.clipboard.writeText(code).then(() => {
-              button.innerHTML = '<i class="fa-solid fa-check" style="color: #28a745;"></i>';
-              setTimeout(() => {
-                button.innerHTML = '<i class="fa-regular fa-copy"></i>';
-              }, 2000);
-            });
-          });
-        }
-      });
-
-      // Simple Lightbox Logic
-      secureView.querySelectorAll('img').forEach((img) => {
-        img.style.cursor = 'zoom-in';
-        img.addEventListener('click', () => {
-          const overlay = document.createElement('div');
-          overlay.className = 'lightbox-overlay';
-          overlay.innerHTML = `<img src="${img.src}" class="lightbox-img">`;
-          document.body.appendChild(overlay);
-          
-          setTimeout(() => overlay.style.opacity = '1', 10);
-          
-          overlay.addEventListener('click', () => {
-            overlay.style.opacity = '0';
-            setTimeout(() => overlay.remove(), 300);
+  // Simple Copy Button & Lightbox Logic (Now global and immediate)
+  function initPostFeatures(container) {
+    // Copy Buttons
+    container.querySelectorAll('pre').forEach((block) => {
+      if (block.querySelector('code') && !block.parentNode.querySelector('.copy-btn')) {
+        const button = document.createElement('button');
+        button.className = 'copy-btn';
+        button.innerHTML = '<i class="fa-regular fa-copy"></i>';
+        block.parentNode.insertBefore(button, block);
+        
+        button.addEventListener('click', () => {
+          const code = block.querySelector('code').innerText;
+          navigator.clipboard.writeText(code).then(() => {
+            button.innerHTML = '<i class="fa-solid fa-check" style="color: #28a745;"></i>';
+            setTimeout(() => {
+              button.innerHTML = '<i class="fa-regular fa-copy"></i>';
+            }, 2000);
           });
         });
+      }
+    });
+
+    // Lightbox
+    container.querySelectorAll('img').forEach((img) => {
+      img.style.cursor = 'zoom-in';
+      img.addEventListener('click', () => {
+        const overlay = document.createElement('div');
+        overlay.className = 'lightbox-overlay';
+        overlay.innerHTML = `<img src="${img.src}" class="lightbox-img">`;
+        document.body.appendChild(overlay);
+        setTimeout(() => overlay.style.opacity = '1', 10);
+        overlay.addEventListener('click', () => {
+          overlay.style.opacity = '0';
+          setTimeout(() => overlay.remove(), 300);
+        });
       });
-    }, 700); // 0.7s delay to foil simple scrapers
+    });
   }
+
+  // Initialize features on whole document
+  initPostFeatures(document);
 });
