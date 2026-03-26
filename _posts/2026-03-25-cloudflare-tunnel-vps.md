@@ -28,36 +28,23 @@ sudo dpkg -i cloudflared.deb
 
 ![proses instalasi sukses](/assets/img/install.png)
 
-### 2. login ke cloudflare
-ketik perintah ini, lalu klik link yang muncul buat otorisasi domain kamu:
+### 2. dapatkan tunnel token
+buka dashboard cloudflare (zero trust > networks > tunnels). buat tunnel baru di sana, pilih "cloudflared" sebagai connector, lalu **copy token** yang diberikan.
+
+![dashboard cloudflare tunnel](/assets/img/tunnel-dash.png)
+
+### 3. jalankan tunnel dengan token
+kamu gak perlu login lagi di terminal vps. cukup masukkan token yang sudah kamu copy tadi ke perintah ini untuk meng-install-nya sebagai service:
 ```bash
-cloudflared tunnel login
+sudo cloudflared service install <copy-token-kamu-di-sini>
 ```
 
-![halaman otorisasi di browser](/assets/img/login.png)
+![status instalasi service](/assets/img/service-ok.png)
 
-### 3. buat tunnel baru
-kasih nama bebas buat tunnel kamu, misal "vps-tunnel":
-```bash
-cloudflared tunnel create vps-tunnel
-```
+### 4. cek status
+kamu bisa cek tunnel sudah online atau belum lewat dashboard cloudflare. kalau sudah status "healthy", berarti vps kamu sudah terhubung aman tanpa perlu buka ip publik!
 
-![id tunnel berhasil dibuat](/assets/img/create.png)
-*catatan: simpan id tunnel yang muncul (berupa kode unik panjang).*
-
-### 4. konfigurasi routing
-hubungkan tunnel tersebut dengan subdomain yang kamu mau:
-```bash
-cloudflared tunnel route dns vps-tunnel domain.kamu.com
-```
-
-### 5. jalankan tunnel
-terakhir, hubungkan tunnel ke service lokal kamu (misal website jalan di port 80):
-```bash
-cloudflared tunnel run --url http://localhost:80 vps-tunnel
-```
-
-![status tunnel aktif dan connected](/assets/img/status.png)
+![status tunnel healthy](/assets/img/healthy.png)
 
 ---
 
