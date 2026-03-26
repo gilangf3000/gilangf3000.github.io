@@ -8,13 +8,6 @@ keywords: [home, gilang, blog, teknologi]
 <div class="post-list">
   {% for post in site.posts %}
   <article class="post">
-    {% if post.image %}
-    <div class="post-hero">
-      <a href="{{ post.url | relative_url }}">
-        <img src="{{ post.image | relative_url }}" alt="{{ post.title }}">
-      </a>
-    </div>
-    {% endif %}
     <div class="post-title">
       <a href="{{ post.url | relative_url }}">
         {{ post.emoji }} {{ post.title }}
