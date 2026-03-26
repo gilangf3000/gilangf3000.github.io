@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "bikin tampilan ssh vps jadi keren pake custom welcome banner (motd)"
+title: "Bikin Tampilan SSH VPS Jadi Keren Pake Custom Welcome Banner (MOTD)"
 date: 2026-03-25
 emoji: 🖥️
 keywords: [vps, linux, banner, terminal, tutorial, server, bash script, motd, custom welcome ssh, tampilan vps keren, sysadmin tips]
