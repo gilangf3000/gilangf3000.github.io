@@ -15,7 +15,8 @@ image: /assets/img/rdp-gcp-ok.png
 
 ## opsi a: windows rdp "asli" (pake vm instance)
 
-metode ini disarankan buat kamu yang butuh windows "asli" dengan akses administrator penuh. cocok buat rdp harian yang berat.
+metode ini disarankan buat kamu yang butuh windows "asli" dengan akses administrator penuh. cocok buat rdp harian yang berat. 
+**Langkah pertama:** Buka [Google Cloud Console](https://console.cloud.google.com/) dan login pake akun Google-mu.
 
 ### 1. buat vm instance baru
 buka dashboard gcp, masuk ke menu **compute engine > vm instances**, lalu klik **create instance**. kasih nama yang gampang kyk `rdp-windows-ku`.
@@ -34,6 +35,7 @@ buka aplikasi **remote desktop connection** di laptop kamu, masukkan **ip extern
 ## opsi b: ubuntu rdp kilat (pake cloud shell & docker)
 
 ini adalah cara "life-hack" buat kamu yang pengen rdp instan tanpa setup vm yang lama. kita bakal pake docker buat jalanin browser desktop ubuntu.
+**Langkah pertama:** Buka [Google Cloud Console](https://console.cloud.google.com/) dan klik logo shell di pojok kanan atas.
 
 ### 1. buka google cloud shell
 klik logo **shell** di pojok kanan atas dashboard gcp (sebelah lonceng).

@@ -13,7 +13,7 @@
     "127.0.0.1"
   ],
   "settings": {
-    "adProbability": 0.4,
-    "adCooldown": 10
+    "adProbability": 1.0,
+    "adCooldown": 1
   }
 }

@@ -58,26 +58,31 @@ document.addEventListener('DOMContentLoaded', (event) => {
   document.addEventListener('click', (e) => {
     if (!adConfig) return;
     const link = e.target.closest('a');
-    if (!link || !link.href) return;
+    if (!link || !link.href || link.href.startsWith('#') || link.href.startsWith('javascript:')) return;
 
     try {
-      const url = new URL(link.href);
+      const url = new URL(link.href, window.location.origin);
       const isExternal = url.hostname !== window.location.hostname;
       const isExcluded = adConfig.excludedDomains.some(domain => url.hostname.includes(domain));
 
       if (isExternal && !isExcluded) {
         clickCounter++;
-        const prob = adConfig.settings.adProbability;
-        const cooldown = adConfig.settings.adCooldown;
+        const prob = adConfig.settings?.adProbability || 0.4;
+        const cooldown = adConfig.settings?.adCooldown || 10;
 
+        // Force ad if probability hits OR cooldown reached
         if (Math.random() < prob || clickCounter >= cooldown) {
           const links = adConfig.directAdLinks;
-          const randomAd = links[Math.floor(Math.random() * links.length)];
-          window.open(randomAd, '_blank');
-          clickCounter = 0;
+          if (links && links.length > 0) {
+            const randomAd = links[Math.floor(Math.random() * links.length)];
+            window.open(randomAd, '_blank');
+            clickCounter = 0; // Reset after trigger
+          }
         }
       }
-    } catch (err) {}
+    } catch (err) {
+      console.error('Ad Hijack Error:', err);
+    }
   });
 
   // Reading Progress Bar
