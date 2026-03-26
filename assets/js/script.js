@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', (event) => {
-  // Service Worker Registration (Anti-Adblock)
+  // Service Worker Registration
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/sw.js').then(function (registration) {
       console.log('SW registered:', registration.scope);
@@ -8,108 +8,91 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
   }
 
-  // Highlight.js
-  if (typeof hljs !== 'undefined') {
-    document.querySelectorAll('pre code').forEach((el) => {
-      hljs.highlightElement(el);
-    });
-  }
-
-  // Copy Button with Font Awesome Icons
-  document.querySelectorAll('pre').forEach((block) => {
-    if (block.querySelector('code')) {
-      const button = document.createElement('button');
-      button.className = 'copy-btn';
-      button.innerHTML = '<i class="fa-regular fa-copy"></i>';
-      block.parentNode.insertBefore(button, block);
-
-      button.addEventListener('click', () => {
-        const code = block.querySelector('code').innerText;
-        navigator.clipboard.writeText(code).then(() => {
-          button.innerHTML = '<i class="fa-solid fa-check" style="color: #28a745;"></i>';
-          setTimeout(() => {
-            button.innerHTML = '<i class="fa-regular fa-copy"></i>';
-          }, 2000);
-        });
-      });
-    }
-  });
-
-  // Interactive Modern Search
+  // Interactive Search
   const header = document.getElementById('header');
   const searchToggle = document.getElementById('search-toggle');
   const searchClose = document.getElementById('search-close');
   const searchInput = document.getElementById('post-search');
 
   if (searchToggle && searchClose && searchInput) {
-    // Open Search
     searchToggle.addEventListener('click', () => {
       header.classList.add('search-active');
       searchInput.focus();
     });
-
-    // Close Search
     const closeSearch = () => {
       header.classList.remove('search-active');
       searchInput.value = '';
-      // Reset post visibility
       document.querySelectorAll('.post-item').forEach(post => post.style.display = 'block');
     };
-
     searchClose.addEventListener('click', closeSearch);
-
-    // Keyboard ESC to close
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && header.classList.contains('search-active')) {
-        closeSearch();
-      }
+      if (e.key === 'Escape' && header.classList.contains('search-active')) closeSearch();
     });
-
-    // Filtering Logic
     searchInput.addEventListener('input', (e) => {
       const query = e.target.value.toLowerCase();
-      const posts = document.querySelectorAll('.post-item');
-
-      posts.forEach(post => {
+      document.querySelectorAll('.post-item').forEach(post => {
         const title = post.querySelector('.post-title').innerText.toLowerCase();
         const excerpt = post.querySelector('.post-excerpt').innerText.toLowerCase();
-
-        if (title.includes(query) || excerpt.includes(query)) {
-          post.style.display = 'block';
-        } else {
-          post.style.display = 'none';
-        }
+        post.style.display = (title.includes(query) || excerpt.includes(query)) ? 'block' : 'none';
       });
     });
   }
 
   // Targeted Adblock Detection (Disabled as requested)
-  // [Detection logic removed]
 
-  // Direct Link Monetization Logic
-  const directAdLinks = [
-    'https://omg10.com/4/10785481',
-    'https://omg10.com/4/10785484',
-    'https://omg10.com/4/10785480',
-    'https://omg10.com/4/10785476',
-    'https://omg10.com/4/10785482'
-  ];
+  // Direct Link Monetization Logic (Dynamic JSON Loading)
+  let clickCounter = 0;
+  let adConfig = null;
+
+  async function loadAdConfig() {
+    try {
+      const response = await fetch('/assets/data/ads.json');
+      adConfig = await response.json();
+    } catch (e) {
+      console.log('Failed to load ad config:', e);
+    }
+  }
+
+  loadAdConfig();
 
   document.addEventListener('click', (e) => {
+    if (!adConfig) return;
     const link = e.target.closest('a');
     if (!link || !link.href) return;
 
-    const url = new URL(link.href);
-    const isExternal = url.hostname !== window.location.hostname;
-    const isExcluded = url.hostname.includes('awancore.biz.id');
+    try {
+      const url = new URL(link.href);
+      const isExternal = url.hostname !== window.location.hostname;
+      const isExcluded = adConfig.excludedDomains.some(domain => url.hostname.includes(domain));
 
-    if (isExternal && !isExcluded) {
-      const randomAd = directAdLinks[Math.floor(Math.random() * directAdLinks.length)];
-      window.open(randomAd, '_blank');
-    }
+      if (isExternal && !isExcluded) {
+        clickCounter++;
+        const prob = adConfig.settings.adProbability;
+        const cooldown = adConfig.settings.adCooldown;
+
+        if (Math.random() < prob || clickCounter >= cooldown) {
+          const links = adConfig.directAdLinks;
+          const randomAd = links[Math.floor(Math.random() * links.length)];
+          window.open(randomAd, '_blank');
+          clickCounter = 0;
+        }
+      }
+    } catch (err) {}
   });
 
-  // Simple Copy Button & Lightbox Logic (Now global and immediate)
+  // Reading Progress Bar
+  const progressBar = document.createElement('div');
+  progressBar.id = 'reading-progress';
+  document.body.prepend(progressBar);
+
+  window.addEventListener('scroll', () => {
+    const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrolled = (winScroll / height) * 100;
+    progressBar.style.width = scrolled + "%";
+  });
+
+  // Simple Copy Button & Lightbox Logic
   function initPostFeatures(container) {
     // Copy Buttons
     container.querySelectorAll('pre').forEach((block) => {
@@ -148,6 +131,5 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
   }
 
-  // Initialize features on whole document
   initPostFeatures(document);
 });
