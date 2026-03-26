@@ -28,7 +28,8 @@ body {
 
 main {
   flex: 1;
-  min-height: 400px; /* Prevent collapse on short content */
+  min-height: 400px;
+  /* Prevent collapse on short content */
 }
 
 html::-webkit-scrollbar,
@@ -171,7 +172,7 @@ a:hover {
 
 .post-title {
   margin: 0;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 700;
   letter-spacing: -0.5px;
 }
@@ -276,7 +277,13 @@ pre {
   opacity: 1;
 }
 
-code, kbd, pre, samp, .copy-btn, .highlight, .highlight * {
+code,
+kbd,
+pre,
+samp,
+.copy-btn,
+.highlight,
+.highlight * {
   font-family: var(--mono-font);
   font-size: 0.9em;
 }

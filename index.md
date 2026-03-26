@@ -7,7 +7,10 @@ keywords: [home, gilang, blog, teknologi]
 
 <div class="post-list">
   {% for post in site.posts %}
-  <article class="post">
+  <article class="post-item">
+    <div class="post-meta">
+      {{ post.date | date: "%-d %B %Y" | downcase }}
+    </div>
     <div class="post-title">
       <a href="{{ post.url | relative_url }}">
         {{ post.emoji }} {{ post.title }}
