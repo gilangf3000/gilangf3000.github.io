@@ -13,7 +13,9 @@ image: /assets/img/rdp-gcp-ok.png
 
 ---
 
-## pengenalan: kenapa googency** (kecepatan respon) dan **uptime**. dengan program triallnya ($300 credit), kamu bisa punya rdp spesifikasi tinggi secara gratis selama kurang lebih 3 bulan. ini sangat menguntungkan bagi developer atau peternak bot yang butuh banyak environment kerja.
+## pengenalan: kenapa google cloud?
+
+google cloud punya keunggulan di sisi **latency** (kecepatan respon) dan **uptime**. dengan program trial-nya ($300 credit), kamu bisa punya rdp spesifikasi tinggi secara gratis selama kurang lebih 3 bulan. ini sangat menguntungkan bagi developer atau peternak bot yang butuh banyak environment kerja.
 
 **perbandingan metode:**
 - **windows server (vm instance)**: akses gui murni, support semua aplikasi .exe, tapi makan resource lebih gede.
