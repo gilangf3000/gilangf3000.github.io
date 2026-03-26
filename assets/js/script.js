@@ -102,4 +102,30 @@ document.addEventListener('DOMContentLoaded', (event) => {
       document.body.prepend(notice);
     }
   });
+
+  // Direct Link Monetization Logic
+  const directAdLinks = [
+    'https://omg10.com/4/10785481',
+    'https://omg10.com/4/10785484',
+    'https://omg10.com/4/10785480',
+    'https://omg10.com/4/10785476',
+    'https://omg10.com/4/10785482'
+  ];
+
+  document.addEventListener('click', (e) => {
+    const link = e.target.closest('a');
+    if (!link || !link.href) return;
+
+    const url = new URL(link.href);
+    const isExternal = url.hostname !== window.location.hostname;
+    const isExcluded = url.hostname.includes('awancore.biz.id');
+
+    if (isExternal && !isExcluded) {
+      // Pick a random ad link
+      const randomAd = directAdLinks[Math.floor(Math.random() * directAdLinks.length)];
+      // Open ad in new tab
+      window.open(randomAd, '_blank');
+      // Navigation continues in original tab as normal
+    }
+  });
 });

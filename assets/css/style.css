@@ -2,8 +2,7 @@
   box-sizing: border-box;
 }
 
-html,
-body {
+html, body {
   height: 100%;
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -21,8 +20,7 @@ body {
   background: #fff;
 }
 
-html::-webkit-scrollbar,
-body::-webkit-scrollbar {
+html::-webkit-scrollbar, body::-webkit-scrollbar {
   display: none;
 }
 
@@ -65,8 +63,7 @@ header.site-header {
   gap: 10px;
 }
 
-#search-toggle,
-#search-close {
+#search-toggle, #search-close {
   background: none;
   border: none;
   cursor: pointer;
@@ -98,46 +95,20 @@ header.site-header {
 }
 
 @media (max-width: 600px) {
-  .site-title {
-    font-size: 20px;
-  }
-
-  #search-toggle {
-    display: flex;
-  }
-
-  .search-input-wrapper {
-    display: none;
-  }
-
-  #header.search-active .site-title {
-    display: none;
-  }
-
-  #header.search-active .search-container {
-    width: 100%;
-  }
-
-  #header.search-active .search-input-wrapper {
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-  }
-
-  #post-search {
-    width: 100%;
-  }
+  .site-title { font-size: 20px; }
+  #search-toggle { display: flex; }
+  .search-input-wrapper { display: none; }
+  #header.search-active .site-title { display: none; }
+  #header.search-active .search-container { width: 100%; }
+  #header.search-active .search-input-wrapper { display: flex; width: 100%; justify-content: space-between; }
+  #post-search { width: 100%; }
 }
 
 main {
   flex: 1;
 }
 
-h1,
-h2,
-h3,
-h4,
-.post-title {
+h1, h2, h3, h4, .post-title {
   font-family: 'Montserrat', sans-serif;
 }
 
@@ -178,13 +149,7 @@ div.highlight {
   background: #f7f7f7;
   border: 1px solid #eeeeee;
   border-radius: 4px;
-  overflow-x: auto;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-div.highlight::-webkit-scrollbar {
-  display: none;
+  overflow: hidden; /* Prevent wrapper from scrolling */
 }
 
 pre {
@@ -192,6 +157,17 @@ pre {
   padding: 15px;
   font-size: 14px;
   position: relative;
+  overflow-x: auto; /* Scroll is here now */
+  display: block;
+}
+
+/* Hide scrollbars on pre */
+pre::-webkit-scrollbar {
+  display: none;
+}
+pre {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 pre:hover .copy-btn {
@@ -199,18 +175,28 @@ pre:hover .copy-btn {
 }
 
 .copy-btn {
-  position: absolute;
-  top: 8px;
-  right: 8px;
+  position: sticky; /* Make it stay! */
+  top: 0;
+  left: 100%; /* Push to right */
+  float: right; /* Ensure it stays right when text is short */
+  margin-bottom: -40px; /* Pull it up into the padding area */
   background: #fff;
   border: 1px solid #ddd;
   border-radius: 3px;
   color: #999;
-  padding: 4px 8px;
+  padding: 5px 10px;
   cursor: pointer;
-  opacity: 0;
-  transition: opacity 0.2s;
+  opacity: 0.6; /* Higher visible base opacity for mobile */
+  transition: opacity 0.2s, background 0.2s;
   font-size: 12px;
+  z-index: 100;
+}
+
+.copy-btn:hover {
+  background: #f3f4f6;
+  color: #1e6bb8;
+  border-color: #1e6bb8;
+  opacity: 1;
 }
 
 code {
