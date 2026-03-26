@@ -38,11 +38,11 @@ body::-webkit-scrollbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  min-height: 60px;
+  min-height: 50px;
 }
 
 header.site-header {
-  padding: 10px 0;
+  padding: 5px 0;
   border-bottom: 1px solid #f1f1f1;
   margin-bottom: 25px;
   background: #fff;
@@ -234,7 +234,10 @@ pre {
   opacity: 1;
 }
 
-code, kbd, pre, samp {
+code,
+kbd,
+pre,
+samp {
   font-family: var(--mono-font);
   font-size: 0.9em;
 }
@@ -249,7 +252,7 @@ img {
 
 footer {
   margin-top: 15px;
-  padding: 15px 0;
+  padding: 10px 0;
   border-top: 1px solid #f1f1f1;
   font-size: 13px;
   color: #aaa;

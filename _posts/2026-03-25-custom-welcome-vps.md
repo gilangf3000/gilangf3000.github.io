@@ -1,124 +1,140 @@
 ---
 layout: post
-title: "tutorial: cara ubah pesan welcome di terminal linux (vps ssh)"
+title: "expert-guide: custom welcome banner ssh linux (motd) biar vps makin pro"
 date: 2026-03-25
 emoji: 🖥️
-keywords: [vps, linux, banner, terminal, tutorial, server]
+keywords: [vps, linux, banner, terminal, tutorial, server, bash script, motd, custom welcome ssh, tampilan vps keren, sysadmin tips]
 image: /assets/img/welcome.png
 ---
 
-*tiap kali login ssh, biasanya kita cuma disambut layar hitam dan info login terakhir yang ngebosenin. biar vps kamu berasa lebih "personalized" dan profesional, kita bisa pasang custom welcome banner. selain bikin keren, banner ini juga fungsional karena langsung nampilin status mesin (cpu, ram, disk) secara real-time tepat saat kamu masuk. jadi gak perlu repot ngetik perintah cek spek lagi.*
+*bosen liat terminal yang sepi pas login vps? atau pengen tau status ram, cpu, dan uptime tanpa perlu ngetik perintah manual tiap saat? di panduan 'expert-guide' ini, kita bakal bikin custom welcome banner (MOTD) yang nggak cuma keren secara visual dengan warna-warni ANSI, tapi juga fungsional nampilin data live dari jeroan server kamu.*
 
 ![preview](/assets/img/welcome.png)
 
-mengubah tampilan welcome atau yang biasa disebut MOTD (Message of the Day) di linux itu sebenarnya simpel tapi dampaknya besar buat workflow kamu sebagai sysadmin. kita bakal pake script bash yang jalan otomatis lewat folder `/etc/profile.d/`.
+### filosofi MOTD: lebih dari sekadar pajangan
+
+di dunia sysadmin, welcome banner atau **MOTD (Message of the Day)** punya fungsi krusial. bayangkan kamu punya 10-20 server. dengan banner yang jelas, kamu nggak bakal salah ketik perintah `rm -rf` di server produksi karena nama hostname-nya terpampang gede di depan mata pas baru login. plus, info resource usage bantu kamu deteksi dini kalau ada server yang lagi "tertekan" bebannya.
 
 ---
 
-## persiapan & pengenalan motd
+## cara kerja banner di linux
 
-linux punya sistem untuk nampilin pesan setiap kali ada user yang login via ssh atau terminal fisik. biasanya pesan ini disimpen di `/etc/motd` atau dikelola lewat `landscape` (di ubuntu). tapi cara paling fleksibel buat bikin banner yang dinamis (isinya berubah-ubah sesuai status ram/cpu) adalah pake script shell.
+linux biasanya menyimpan pesan statis di `/etc/motd`. tapi kalau kamu mau bannernya dinamis (update tiap detik/menit), kita harus pake script shell yang ditaruh di folder khusus:
+- **Ubuntu/Debian**: Script ditaruh di `/etc/profile.d/` untuk dieksekusi setiap login.
+- **CentOS/RHEL**: Mirip, tapi kadang perlu penyesuaian di `.bash_profile`.
 
-**kenapa pasang banner?**
-1. **identitas**: biar gak ketuker kalau kamu punya banyak vps.
-2. **monitoring cepat**: langsung tau penggunaan disk dan ram pas baru login.
-3. **estetika**: vps jadi keliatan lebih "terawat" dan gaul.
+di tutorial ini kita bakal pake trik `/etc/profile.d/` karena ini yang paling standar dan aman buat distro apapun yang berbasis Bash.
 
 ---
 
-## cara pasang script welcome banner
+## step 1: persiapan script "awancore-v2"
 
-kita bakal naruh scriptnya di `/etc/profile.d/welcome.sh`. script di folder ini bakal otomatis di-execute oleh shell (bash/zsh) setiap kali ada sesi login baru.
+kita bakal bikin script bash yang ngumpulin data sistem, ngitung penggunaan ram, dan nampilinnya dengan format yang rapi.
 
-### 1. buat file script di vps
-gunakan editor `nano` atau `vim` untuk membuat file baru. pastikan kamu punya akses root atau gunakan `sudo`.
 ```bash
-sudo nano /etc/profile.d/welcome.sh
+# buat file baru
+sudo nano /etc/profile.d/welcome-pro.sh
 ```
 
-### 2. salin script "awancore master"
-silakan copy dan paste script bash di bawah ini. script ini sudah saya optimasi biar tampilannya rapi, berwarna, dan dapet info spek yang akurat.
+copy script di bawah ini. saya sudah tambahkan kode warna ANSI yang "soft" di mata tapi tetep keliatan techy:
 
 ```bash
 #!/bin/bash
 
-# AwanCore Premium Banner Script
-# Dibuat untuk monitoring cepat spesifikasi VPS
+# --- KONFIGURASI WARNA (ANSI) ---
+BOLD="\033[1m"
+BLUE="\033[1;34m"
+CYAN="\033[1;36m"
+GREEN="\033[1;32m"
+WHITE="\033[1;37m"
+GRAY="\033[0;37m"
+RED="\033[1;31m"
+NC="\033[0m"
 
-C1="\033[1;38;5;51m" # Light Blue
-C2="\033[1;38;5;45m" # Medium Blue
-C3="\033[1;38;5;39m" # Darker Blue
-TXT="\033[1;37m"     # Pure White
-DIM="\033[0;37m"     # Gray
-NC="\033[0m"         # No Color
-
-center() {
-  printf "%*s\n" $(((${#1} + $(tput cols)) / 2)) "$1"
-}
-
-# Ambil data sistem
-HOST=$(hostname)
+# --- AMBIL DATA SISTEM ---
 USER=$(whoami)
+HOSTNAME=$(hostname)
 IP=$(hostname -I | awk '{print $1}')
-UP=$(uptime -p | sed 's/up //')
-TIME=$(date '+%Y-%m-%d %H:%M:%S')
+OS=$(grep -oP '(?<=^PRETTY_NAME=").*(?=")' /etc/os-release)
+KERNEL=$(uname -r)
+UPTIME=$(uptime -p | sed 's/up //')
+DATE=$(date +"%A, %d %B %Y, %T")
 
-# Ambil spek hardware
-CPU=$(grep -m1 "model name" /proc/cpuinfo | cut -d: -f2 | xargs)
-CORE=$(nproc)
-RAM=$(free -m | awk '/Mem:/ {printf "%dMB / %dMB", $3, $2}')
-DISK=$(df -h / | awk 'NR==2 {print $3 " / " $2}')
+# --- HITUNG RESOURCE ---
+# RAM Usage
+RAM_TOTAL=$(free -m | awk '/Mem:/ { print $2 }')
+RAM_USED=$(free -m | awk '/Mem:/ { print $3 }')
+RAM_PERC=$((RAM_USED * 100 / RAM_TOTAL))
 
+# DISK Usage
+DISK_PERC=$(df -h / | awk 'NR==2 {print $5}' | sed 's/%//')
+CPU_LOAD=$(top -bn1 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print 100 - $1}')
+
+# --- TAMPILAN BANNER ---
 clear
+echo -e "${BLUE}================================================================${NC}"
+echo -e "  ${BOLD}${WHITE}Gilang's SSH Console${NC} ${GRAY}- Authorized Access Only${NC}"
+echo -e "${BLUE}================================================================${NC}"
+echo -e "  ${CYAN}Sistem Info:${NC}"
+echo -e "  ${GRAY}Distro :${NC} ${WHITE}$OS${NC}"
+echo -e "  ${GRAY}Kernel :${NC} ${WHITE}$KERNEL${NC}"
+echo -e "  ${GRAY}Uptime :${NC} ${GREEN}$UPTIME${NC}"
+echo -e ""
+echo -e "  ${CYAN}Resource Status:${NC}"
+echo -e "  ${GRAY}CPU Load :${NC} ${WHITE}${CPU_LOAD}%${NC}"
+echo -e "  ${GRAY}RAM Used :${NC} ${WHITE}${RAM_USED}MB / ${RAM_TOTAL}MB (${RAM_PERC}%)${NC}"
+echo -e "  ${GRAY}Disk (/) :${NC} ${WHITE}${DISK_PERC}% Used${NC}"
 echo ""
-echo -e "${C1}$(center "WELCOME TO YOUR SERVER")${NC}"
-echo -e "${C2}$(center "Managed by AwanCore")${NC}"
-echo ""
-
-# Tampilan Info Utama
-echo -e "${DIM}Identity    ${NC}: ${TXT}$HOST${NC} ${DIM}(User: ${USER})${NC}"
-echo -e "${DIM}Local IP    ${NC}: ${TXT}$IP${NC}"
-echo -e "${DIM}Server Time ${NC}: ${C2}$TIME${NC}"
-echo -e "${DIM}Uptime      ${NC}: ${C3}$UP${NC}"
-
-echo -e "${C1}--------------------------------------------------${NC}"
-
-# Tampilan Hardware
-echo -e "${DIM}CPU Model   ${NC}: ${C2}$CPU${NC} ${DIM}(${CORE} Cores)${NC}"
-echo -e "${DIM}Memory (RAM)${NC}: ${C3}$RAM${NC}"
-echo -e "${DIM}Disk Space  ${NC}: ${TXT}$DISK used${NC}"
-echo ""
-echo -e "${C2}Happy Sysadmin! Jangan lupa backup berkala.${NC}"
+echo -e "  ${CYAN}Network Identity:${NC}"
+echo -e "  ${GRAY}Logged as:${NC} ${GREEN}${USER}${NC}${GRAY} @ ${NC}${WHITE}${HOSTNAME}${NC}"
+echo -e "  ${GRAY}Local IP :${NC} ${WHITE}${IP}${NC}"
+echo -e "  ${GRAY}Date     :${NC} ${WHITE}${DATE}${NC}"
+echo -e "${BLUE}================================================================${NC}"
+echo -e "  ${GRAY}Pro-Tip: Gunakan 'sudo htop' untuk monitoring lebih detail.${NC}"
 echo ""
 ```
 
-### 3. berikan izin eksekusi
-agar script ini bisa jalan pas login, kita harus ngasih izin perintah `executable` ke filenya. 
+---
+
+## step 2: pemberian izin (the crucial point)
+
+script ini nggak akan jalan kalau nggak dikasih izin "executable".
 ```bash
-sudo chmod +x /etc/profile.d/welcome.sh
+sudo chmod +x /etc/profile.d/welcome-pro.sh
 ```
 
-### 4. tes tampilan tanpa relogin
-gak perlu keluar masuk ssh buat liat hasilnya. cukup ketik perintah:
-```bash
-source /etc/profile.d/welcome.sh
-```
+---
 
-### 5. opsional: hapus motd default (ubuntu)
-biar banner kamu nggak "beradu" sama banner default ubuntu yang panjang, kamu bisa matiin motd default lewat perintah ini:
+## step 3: membersihkan banner bawaan (clean install)
+
+ubuntu/debian sering nampilin banyak pesan sampah pas login (kyk info update, help link, dll). biar banner baru kamu keliatan bersih di atas, kita harus "mute" script motd bawaan.
+
 ```bash
+# hapus permission executable di folder update-motd.d
 sudo chmod -x /etc/update-motd.d/*
 ```
-*catatan: kalau nanti mau balikin banner asli ubuntu, tinggal ganti `-x` jadi `+x` lagi.*
 
 ---
 
-## troubleshooting
-kalau bannernya nggak muncul, pastikan:
-- shell yang kamu pake adalah **Bash**. kalau kamu pake Zsh, pastikan `/etc/zsh/zprofile` kamu memanggil script di `/etc/profile.d/`.
-- file script punya baris pertama `#!/bin/bash` yang bener.
-- folder `/etc/profile.d/` ada di vps kamu (hampir semua distro modern punya ini).
+## tips expert: nambahin ASCII ART
+
+pengen ada tulisan "GILANG" besar pake karakter unik? kamu bisa pake tool `figlet`:
+1. install: `sudo apt install figlet -y`.
+2. buat tulisan: `figlet "GILANG"`.
+3. copy hasilnya dan paste di dalam perintah `echo` di script bash kamu di atas.
 
 ---
 
-*p.s. butuh vps murah dan kenceng? cek di [awancore.biz.id](https://awancore.biz.id/) ya!*
+## FAQ (Kira-kira apa yang sering ditanya?)
+
+**T: Scriptnya aman nggak gan buat performa?**
+J: Aman banget. Script bash ringan cuma jalan sekali pas kamu login. Nggak bakal bikin server berat pas lagi kerja.
+
+**T: Bisa jalan di OS Windows PowerShell?**
+J: Nggak, ini khusus buat server Linux (Ubuntu/Debian/CentOS). Kalau vps kamu Windows, caranya beda lagi pake Registry.
+
+---
+
+![status banner ok](/assets/img/service-ok.png)
+
+*p.s. vps kenceng mulai 20rb-an? cek aja di [awancore.biz.id](https://awancore.biz.id/) - tempatnya para sysadmin ngumpul!*

@@ -3,7 +3,7 @@ layout: post
 title: "masterclass: cara membuat rdp google cloud premium & optimasi 2026"
 date: 2026-03-26
 emoji: 🖥️
-keywords: [google cloud, gcp, rdp, vps, windows, ubuntu, tutorial, linux, server, optimasi]
+keywords: [google cloud, gcp, rdp, vps, windows, ubuntu, tutorial, linux, server, optimasi, rdp gratis, vps murah, gcp rdp, remote desktop google, cara membuat rdp]
 image: /assets/img/rdp-gcp-ok.png
 ---
 
