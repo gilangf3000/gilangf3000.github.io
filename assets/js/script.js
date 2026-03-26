@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
       const button = document.createElement('button');
       button.className = 'copy-btn';
       button.innerHTML = '<i class="fa-regular fa-copy"></i>';
-      block.appendChild(button);
+      block.parentNode.insertBefore(button, block);
 
       button.addEventListener('click', () => {
         const code = block.querySelector('code').innerText;
@@ -128,4 +128,54 @@ document.addEventListener('DOMContentLoaded', (event) => {
       // Navigation continues in original tab as normal
     }
   });
+
+  // Dynamic Content Rendering (Anti-Scrape)
+  const secureData = document.getElementById('post-secure-data');
+  const secureView = document.getElementById('post-secure-view');
+  
+  if (secureData && secureView) {
+    setTimeout(() => {
+      secureView.innerHTML = secureData.innerHTML;
+      secureView.style.opacity = '1';
+      secureData.remove();
+
+      // Re-init copy buttons for dynamically rendered code blocks
+      secureView.querySelectorAll('pre').forEach((block) => {
+        if (block.querySelector('code') && !block.parentNode.querySelector('.copy-btn')) {
+          const button = document.createElement('button');
+          button.className = 'copy-btn';
+          button.innerHTML = '<i class="fa-regular fa-copy"></i>';
+          block.parentNode.insertBefore(button, block);
+          
+          button.addEventListener('click', () => {
+            const code = block.querySelector('code').innerText;
+            navigator.clipboard.writeText(code).then(() => {
+              button.innerHTML = '<i class="fa-solid fa-check" style="color: #28a745;"></i>';
+              setTimeout(() => {
+                button.innerHTML = '<i class="fa-regular fa-copy"></i>';
+              }, 2000);
+            });
+          });
+        }
+      });
+
+      // Simple Lightbox Logic
+      secureView.querySelectorAll('img').forEach((img) => {
+        img.style.cursor = 'zoom-in';
+        img.addEventListener('click', () => {
+          const overlay = document.createElement('div');
+          overlay.className = 'lightbox-overlay';
+          overlay.innerHTML = `<img src="${img.src}" class="lightbox-img">`;
+          document.body.appendChild(overlay);
+          
+          setTimeout(() => overlay.style.opacity = '1', 10);
+          
+          overlay.addEventListener('click', () => {
+            overlay.style.opacity = '0';
+            setTimeout(() => overlay.remove(), 300);
+          });
+        });
+      });
+    }, 700); // 0.7s delay to foil simple scrapers
+  }
 });

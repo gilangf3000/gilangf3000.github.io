@@ -17,6 +17,13 @@ layout: default
   </header>
 
   <div class="post-content">
-    {{ content }}
+    <template id="post-secure-data">
+      {{ content }}
+    </template>
+    <div id="post-secure-view" class="fade-in-content">
+      <div class="loading-placeholder">
+        <i class="fa-solid fa-shield-halved"></i> Dekripsi Konten Aman...
+      </div>
+    </div>
   </div>
 </article>

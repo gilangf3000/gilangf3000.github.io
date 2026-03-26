@@ -149,16 +149,17 @@ div.highlight {
   background: #f7f7f7;
   border: 1px solid #eeeeee;
   border-radius: 4px;
-  overflow: hidden; /* Prevent wrapper from scrolling */
+  position: relative; /* Now the anchor for absolute button */
+  overflow: hidden;
 }
 
 pre {
   margin: 0;
   padding: 15px;
   font-size: 14px;
-  position: relative;
-  overflow-x: auto; /* Scroll is here now */
+  overflow-x: auto;
   display: block;
+  background: transparent;
 }
 
 /* Hide scrollbars on pre */
@@ -170,25 +171,23 @@ pre {
   scrollbar-width: none;
 }
 
-pre:hover .copy-btn {
+.highlight:hover .copy-btn {
   opacity: 1;
 }
 
 .copy-btn {
-  position: sticky; /* Make it stay! */
-  top: 0;
-  left: 100%; /* Push to right */
-  float: right; /* Ensure it stays right when text is short */
-  margin-bottom: -40px; /* Pull it up into the padding area */
+  position: absolute; /* Fixed relative to .highlight */
+  top: 10px;
+  right: 10px;
   background: #fff;
   border: 1px solid #ddd;
-  border-radius: 3px;
+  border-radius: 4px;
   color: #999;
-  padding: 5px 10px;
+  padding: 6px 12px;
   cursor: pointer;
-  opacity: 0.6; /* Higher visible base opacity for mobile */
+  opacity: 0;
   transition: opacity 0.2s, background 0.2s;
-  font-size: 12px;
+  font-size: 13px;
   z-index: 100;
 }
 
@@ -196,7 +195,6 @@ pre:hover .copy-btn {
   background: #f3f4f6;
   color: #1e6bb8;
   border-color: #1e6bb8;
-  opacity: 1;
 }
 
 code {
@@ -218,4 +216,21 @@ footer {
   font-size: 13px;
   color: #aaa;
   text-align: center;
+}
+
+/* Anti-Scrape Styling */
+#post-secure-view {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.loading-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 50px 0;
+  color: #999;
+  font-size: 14px;
+  font-style: italic;
 }
